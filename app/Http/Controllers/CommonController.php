@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\UserImage;
+use App\Models\City;
 use Twilio\Rest\Client;
 use Log;
 use Hash;
@@ -306,13 +308,13 @@ class CommonController extends Controller
         $key = $request->key;
         $user_type = $request->user_type;
         $validations = [
-        	'country_code' => 'required',
+        	// 'country_code' => 'required',
             'mobile'=>'required',
             'key' => 'required',
             'user_type' => 'required',
         ];
         $messages = [
-        	'country_code.required' => 'field country_code is required',
+        	// 'country_code.required' => 'field country_code is required',
         	'mobile.required' => 'field mobile is required',
         	'key.required' => 'field key is required',
         	'user_type.required' => 'field user_type is required',
@@ -324,7 +326,8 @@ class CommonController extends Controller
            ];
            return Response::json($response,__('messages.statusCode.SHOW_ERROR_MESSAGE'));
         }else{
-            $UserDetail = User::Where(['country_code' => $country_code, 'mobile' => $mobile ,'user_type' => $user_type])->first();
+            $UserDetail = User::Where(['mobile' => $mobile ,'user_type' => $user_type])->first();
+            // $UserDetail = User::Where(['country_code' => $country_code, 'mobile' => $mobile ,'user_type' => $user_type])->first();
             // dd($UserDetail);
             if(count($UserDetail)){
                 switch ($key) {
@@ -429,12 +432,12 @@ class CommonController extends Controller
 
     public function change_password(Request $request){
         Log::info('----------------------CommonController--------------------------change_password'.print_r($request->all(),True));
-        // dd($request->all());
-        $accessToken = $request->header('accessToken');
+        $user_id = $request->user_id;
         $old_password = $request->old_password;
         $new_password = $request->new_password;
         $key = $request->key; // 1 (change password) 2 (Reset password)
         $validations = [
+            'user_id' => 'required',
             'key' => 'required'
         ];
         $validator = Validator::make($request->all(),$validations);
@@ -464,7 +467,7 @@ class CommonController extends Controller
                     ];
                     return response()->json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
                 }else{
-                    $UserDetail = $request->userDetail;
+                    $UserDetail = User::find($user_id);
                     if(count($UserDetail)){
                         // dd($UserDetail->password);
                         if(Hash::check($old_password,$UserDetail->password)){
@@ -509,7 +512,7 @@ class CommonController extends Controller
                     ];
                     return response()->json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
                 }else{
-                    $UserDetail = $request->userDetail;
+                    $UserDetail = User::find($user_id);
                     if(count($UserDetail)){
                         // dd($UserDetail->password);
                         $User = User::find($UserDetail->id);
@@ -613,74 +616,144 @@ class CommonController extends Controller
         
     }
 
-    public function update_profile(Request $request){
-        Log::info('----------------------CommonController--------------------------update_profile'.print_r($request->all(),True));
-        $accessToken = $request->header('accessToken');
+    public function complete_profile(Request $request){
+        Log::info('----------------------CommonController--------------------------complete_profile'.print_r($request->all(),True));
         $destinationPathOfProfile = public_path().'/'.'Images/';
-        $first_name = $request->first_name;
-        $last_name = $request->last_name;
-        // $mobile = $request->mobile;
-        $email = $request->email;
         $profile_image = $request->profile_image;
+        $country_id = $request->country_id;
+        $dob = $request->dob;
+        $city = $request->city;
+        $gender = $request->gender;
+        $marital_status = $request->marital_status;
+        $notification_status = $request->notification_status;
+        $photo_email_status = $request->photo_email_status;
+        $USER =  $request->userDetail;
+        $key = $request->user_type;
+        
 
-        $USER = User::Where(['remember_token' => $accessToken])->first();
+        $company_name = $request->company_name;
+        $authorised_person = $request->authorised_person;
+        $tax_administration = $request->tax_administration;
+        $tax_no = $request->tax_no;
+        $company_phone = $request->company_phone;
+
         if(count($USER)){
             $validations = [
-                'profile_image' => 'required',
-                'first_name' => 'required',
-                'last_name' => 'required',
-                /*'mobile' => [
-                    'required',
-                    Rule::unique('users')->ignore($USER->id),
-                ],*/
-                'email' => [
-                    Rule::unique('users')->ignore($USER->id),
-                ],
+                'user_type' => 'required',
+                'profile_image' => 'required|array',
+                'country_id' => "required",
+                'city' => 'required',
+                'dob' => 'required_if:user_type,==,1|date_format:"Y-m-d"',
+                'gender' => 'required_if:user_type,==,1',
+                'marital_status' => 'required_if:user_type,==,1',
+                'notification_status' => 'required_if:user_type,==,1',
+                'marital_status' => 'required_if:user_type,==,1',
+                'photo_email_status' => 'required_if:user_type,==,1',
+                'company_name' => 'required_if:user_type,==,3',
+                'authorised_person' => 'required_if:user_type,==,3',
+                'tax_administration' => 'required_if:user_type,==,3',
+                'tax_no' => 'required_if:user_type,==,3',
+                'company_phone' => 'required_if:user_type,==,3',
             ];
-            $validator = Validator::make($request->all(),$validations);
+            $messages = [
+                'user_type.required' => 'field user_type is required',
+                'profile_image.required' => 'field profile_image is required',
+                'country_id.required' => 'field country_id is required',
+                'dob.required' => 'field dob is required',
+                'gender.required' => 'field gender is required',
+                'marital_status.required' => 'field marital_status is required',
+                'notification_status.required' => 'field notification_status is required',
+                'photo_email_status.required' => 'field photo_email_status is required',
+            ];
+            $validator = Validator::make($request->all(),$validations,$messages);
             if( $validator->fails() ) {
                 $response = [
                     'message' => $validator->errors($validator)->first(),
                 ];
                 return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
             } else {
-                // dd($request->all());
-                if(isset($_FILES['profile_image']['tmp_name'])){
-                    // dd($USER->profile_image);
-                    // dd( $USER->profile_image['big'] );
-                    // dd( explode( '/', $USER->profile_image['big'] ) );
-                    /*if( $USER->profile_image ){
-                        $big = explode('/', $USER->profile_image['big']);
-                        $small = explode('/', $USER->profile_image['small']);
-                        $thumbnail = explode('/', $USER->profile_image['thumbnail']);
-                        if( file_exists( public_path().'/Images/'.end($big) ) ) {
-                            unlink(public_path().'/Images/'.end($big));
-                        }
-                        if(file_exists(public_path().'/Images/'.end($small))){
-                            unlink(public_path().'/Images/'.end($small));
-                        }
-                        if( file_exists(public_path().'/Images/'.end($thumbnail)) ) {
-                            unlink(public_path().'/Images/'.end($thumbnail));
-                        }
-                    }*/
-                    $uploadedfile = $_FILES['profile_image']['tmp_name'];
-                    $fileName1 = substr($this->uploadImage($profile_image,$uploadedfile,$destinationPathOfProfile),9); 
-                    $USER->profile_image = $fileName1;
+                if($key != $this->get_user_type($USER->user_type)){
+                    $response = [
+                        'message' => __('messages.invalid.request'),
+                    ];
+                    return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
                 }
-                $user = new User;
-                $USER->first_name = $first_name;
-                $USER->last_name = $last_name;
-                $USER->complete_profile_status = 1;
-                $USER->email = $email;
-                $USER->updated_at = time();
-                $USER->save();
-                $userData = $user::where(['id' => $USER->id])->first();
-                $response = [
-                    'message' =>  __('messages.success.profile_updated'),
-                    'response' => $userData,
-                ];
-                Log::info('CommonController----complete_profile----'.print_r($response,True));
-                return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                switch ($key) {
+                    case '1': // user
+                        foreach ($profile_image as $key => $value) {
+                            if($value){
+                                if($key == 0){
+                                    $uploadedfile = $_FILES['profile_image']['tmp_name'][$key];
+                                    $fileName1 = substr($this->uploadImage($value,$uploadedfile,$destinationPathOfProfile,$key),9);
+                                    $UserImage = UserImage::firstOrCreate([
+                                        'user_id' => $USER->id,
+                                        'type' => 1,
+                                        'status_by_admin' => 0,
+                                    ]);
+                                    $UserImage->image = $fileName1;
+                                }
+                                $UserImage->save();
+                                $City = City::firstOrCreate(['name' => $city ,'country_id' => $country_id]);
+                                $USER->complete_profile = 1;
+                                $USER->country_id = $country_id;
+                                $USER->city_id = $City->id;
+                                $USER->dob = $dob;
+                                $USER->gender = $gender;
+                                $USER->marital_status = $marital_status;
+                                $USER->notification_status = $notification_status;
+                                $USER->photo_email_status = $photo_email_status;
+                                $USER->save();
+                            }
+                        } 
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        $userData['city_name'] = City::find($userData->city_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----complete_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+                    case '2': // maid
+                        dd('maid');
+                        break;
+
+                    case '3': // maid
+                        foreach ($profile_image as $key => $value) {
+                            if($value){
+                                if($key == 0){
+                                    $uploadedfile = $_FILES['profile_image']['tmp_name'][$key];
+                                    $fileName1 = substr($this->uploadImage($value,$uploadedfile,$destinationPathOfProfile,$key),9);
+                                    $UserImage = UserImage::firstOrCreate([
+                                        'user_id' => $USER->id,
+                                        'type' => 1,
+                                        'status_by_admin' => 0,
+                                    ]);
+                                    $UserImage->image = $fileName1;
+                                }
+                                $UserImage->save();
+                                $City = City::firstOrCreate(['name' => $city ,'country_id' => $country_id]);
+                                $USER->complete_profile = 1;
+                                $USER->company_name = $company_name;
+                                $USER->authorised_person = $authorised_person;
+                                $USER->country_id = $country_id;
+                                $USER->city_id = $City->id;
+                                $USER->tax_administration = $tax_administration;
+                                $USER->tax_no = $tax_no;
+                                $USER->company_phone = $company_phone;
+                                $USER->save();
+                            }
+                        } 
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        $userData['city_name'] = City::find($userData->city_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----complete_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+                }
             }
         }else{
             $response = [
@@ -690,7 +763,7 @@ class CommonController extends Controller
         }
     }
 
-    public function uploadImage($photo,$uploadedfile,$destinationPathOfPhoto){
+    public function uploadImage($photo,$uploadedfile,$destinationPathOfPhoto,$key){
         /*$photo = $request->file('photo');
         $uploadedfile = $_FILES['photo']['tmp_name'];
         $destinationPathOfPhoto = public_path().'/'.'thumbnail/';*/
@@ -714,7 +787,7 @@ class CommonController extends Controller
         $newheight=($height/$width)*$newwidth;
         $tmp=imagecreatetruecolor($newwidth,$newheight);
         imagecopyresampled($tmp,$src,0,0,0,0,$newwidth,$newheight,$width,$height);
-        $filename = $destinationPathOfPhoto.'small'.'_'.$fileName; 
+        $filename = $destinationPathOfPhoto.'small'.'_'.$key.'_'.$fileName; 
         imagejpeg($tmp,$filename,100);
         imagedestroy($tmp);
         $filename = explode('/', $filename);
@@ -724,7 +797,7 @@ class CommonController extends Controller
         $newheight1=($height/$width)*$newwidth1;
         $tmp=imagecreatetruecolor($newwidth1,$newheight1);
         imagecopyresampled($tmp,$src,0,0,0,0,$newwidth1,$newheight1,$width,$height);
-        $filename = $destinationPathOfPhoto.'big'.'_'.$fileName; 
+        $filename = $destinationPathOfPhoto.'big'.'_'.$key.'_'.$fileName; 
         imagejpeg($tmp,$filename,100);
         imagedestroy($tmp);
         $filename = explode('/', $filename);
@@ -734,10 +807,24 @@ class CommonController extends Controller
         $newheight2=($height/$width)*$newwidth2;
         $tmp=imagecreatetruecolor($newwidth2,$newheight2);
         imagecopyresampled($tmp,$src,0,0,0,0,$newwidth2,$newheight2,$width,$height);
-        $filename = $destinationPathOfPhoto.'thumbnail'.'_'.$fileName; 
+        $filename = $destinationPathOfPhoto.'thumbnail'.'_'.$key.'_'.$fileName; 
         imagejpeg($tmp,$filename,100);
         imagedestroy($tmp);
         $filename = explode('/', $filename);
         return $filename[7];
+    }
+
+    public function get_user_type($value){
+        switch ($value) {
+            case 'user':
+                return '1';
+                break;
+            case 'maid':
+                return '2';
+                break;
+            case 'provider':
+                return '3';
+                break;
+        }
     }
 }

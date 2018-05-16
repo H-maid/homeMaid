@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Country;
 
 class User extends Authenticatable
 {
@@ -14,6 +15,10 @@ class User extends Authenticatable
 	protected $hidden = [
 	  'password',
 	];
+
+	public function userImages(){
+		return $this->hasMany(\App\Models\UserImage::class,'user_id','id');
+	}
 
 	public function getUserTypeAttribute($value){
 		switch ($value) {
@@ -28,4 +33,12 @@ class User extends Authenticatable
 				break;
 		}
 	}
+
+	public function getCountryIdAttribute($value){
+		if($value)
+			return Country::find($value)->name;
+		else 
+			return '';
+	}
+
 }
