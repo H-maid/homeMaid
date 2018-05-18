@@ -200,28 +200,28 @@ class CommonController extends Controller
                     ];
                     return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
                } else {
-                switch ($key) {
-                    case 1: // 1 (sign up otp verification)
-                        if( $userDetail->otp == $otp || $otp == 1234){
-                                $userDetail->otp = '';
-                                $userDetail->otp_verified = 1;
-                                $userDetail->updated_at = time();
-                                $userDetail->save();
-                                $Response = [
-                                  'message'  => trans('messages.success.otp_verified'),
-                                  'response' => User::find($userDetail->id)
-                                ];
-                                Log::info('CommonController----otpVerify----'.print_r($Response,True));
-                                return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
-                            } else {
-                                $Response = [
-                                    'message'  => trans('messages.invalid.OTP'),
-                                ];
-                                return Response::json( $Response , trans('messages.statusCode.SHOW_ERROR_MESSAGE') );
-                            }
-                        break;
-                    
-                    case 2: //2 (forget otp verification)
+                    switch ($key) {
+                        case 1: // 1 (sign up otp verification)
+                            if( $userDetail->otp == $otp || $otp == 1234){
+                                    $userDetail->otp = '';
+                                    $userDetail->otp_verified = 1;
+                                    $userDetail->updated_at = time();
+                                    $userDetail->save();
+                                    $Response = [
+                                      'message'  => trans('messages.success.otp_verified'),
+                                      'response' => User::find($userDetail->id)
+                                    ];
+                                    Log::info('CommonController----otpVerify----'.print_r($Response,True));
+                                    return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
+                                } else {
+                                    $Response = [
+                                        'message'  => trans('messages.invalid.OTP'),
+                                    ];
+                                    return Response::json( $Response , trans('messages.statusCode.SHOW_ERROR_MESSAGE') );
+                                }
+                            break;
+                        
+                        case 2: //2 (forget otp verification)
                         if( $userDetail->email_otp == $otp || $otp == 1234){
                                 $userDetail->email_otp = null;
                                 $userDetail->email_otp_verified = null;
@@ -274,15 +274,15 @@ class CommonController extends Controller
 
     public function sendOtp($mobile,$otp) {
         try{
-            $sid = 'ACb833d0dd2e4ed510d90163fb1f0c2785';
-            $token = '2f8bdff0e9d85af075c24c7e410e1241';
+            $sid = 'AC81ab4c13e7f20ff73ad613f0f0882669';
+            $token = '426cae69546a6dedeb03592863b449ca';
             $client = new Client($sid, $token);
             $number = $client->lookups
-                ->phoneNumbers("+17032151231")
+                ->phoneNumbers("+18337664641")
                 ->fetch(array("type" => "carrier"));
             $client->messages->create(
                 implode('',explode('-', $mobile)), array(
-                    'from' => '+17032151231',
+                    'from' => '+18337664641',
                     'body' => 'MAID: please enter this code to verify :'.$otp
                 )
             );

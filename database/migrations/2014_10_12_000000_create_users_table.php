@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             // $table->string('city')->nullable();
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
-            $table->string('marital_status')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();
             $table->bigInteger('otp_verified')->comment('verified 1 , not-verified 0')->default('0');
@@ -36,6 +35,11 @@ class CreateUsersTable extends Migration
             $table->bigInteger('photo_email_status')->comment(' hide-from-other 0 , show-to-all 1')->default('1');
             $table->bigInteger('country_id')->nullable();
             $table->bigInteger('city_id')->nullable();
+                $table->string('district')->nullable();
+                $table->string('nationality')->nullable();
+                $table->string('marital_status')->nullable();
+                $table->string('kids')->nullable();
+                $table->string('hi_job')->nullable();
             $table->string('company_name')->nullable();
             $table->string('authorised_person')->nullable();
             $table->string('tax_administration')->nullable();
