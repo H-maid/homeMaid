@@ -9,7 +9,7 @@ class UserImage extends Model
 {
 	use SoftDeletes;
 	protected $table = 'user_images';
-	protected $fillable = ['user_id', 'image','status_by_admin'];
+	protected $fillable = ['user_id', 'type','image','status_by_admin'];
 
 	public function getImageAttribute($value){
 		if(empty($value)){

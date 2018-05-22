@@ -621,8 +621,8 @@ class CommonController extends Controller
         $destinationPathOfProfile = public_path().'/'.'Images/';
         $profile_image = $request->profile_image;
         $country_id = $request->country_id;
-        $dob = $request->dob;
         $city = $request->city;
+        $dob = $request->dob;
         $gender = $request->gender;
         $marital_status = $request->marital_status;
         $notification_status = $request->notification_status;
@@ -761,6 +761,135 @@ class CommonController extends Controller
             ];
             return Response::json($response,trans('messages.statusCode.INVALID_ACCESS_TOKEN'));
         }
+    }
+
+    public function maid_complete_profile(Request $request){
+        $USER =  $request->userDetail;
+        $destinationPathOfProfile = public_path().'/'.'Images/';
+        $profile_image = $request->profile_image;
+        $step_for_maid_profile = $request->step_for_maid_profile;
+
+        $country_id = $request->country_id;
+        $city = $request->city;
+        $district = $request->district;
+        $dob = $request->dob;
+        $gender = $request->gender;
+        $nationality = $request->nationality;
+        $marital_status = $request->marital_status;
+        $kids = $request->kids;
+        $hi_job = $request->hi_job;
+        
+
+
+        $validations = [
+            'step_for_maid_profile' => 'required',
+            'user_type' => 'required_if:step_for_maid_profile,==,1',
+            'profile_image' => 'required_if:step_for_maid_profile,==,1|array',
+            
+            'country_id' => "required_if:step_for_maid_profile,==,2",
+            'city' => 'required_if:step_for_maid_profile,==,2',
+            'district' => 'required_if:step_for_maid_profile,==,2',
+            'dob' => 'required_if:step_for_maid_profile,==,2|date_format:"Y-m-d"',
+            'gender' => 'required_if:step_for_maid_profile,==,2',
+            'nationality' => 'required_if:step_for_maid_profile,==,2',
+            'marital_status' => 'required_if:step_for_maid_profile,==,2',
+            'kids' => 'required_if:step_for_maid_profile,==,2',
+            'hi_job' => 'required_if:step_for_maid_profile,==,2',
+
+            'company_name' => 'required_if:user_type,==,3',
+            'authorised_person' => 'required_if:user_type,==,3',
+            'tax_administration' => 'required_if:user_type,==,3',
+            'tax_no' => 'required_if:user_type,==,3',
+            'company_phone' => 'required_if:user_type,==,3',
+            'notification_status' => 'required_if:user_type,==,1',
+            'photo_email_status' => 'required_if:user_type,==,1',
+        ];
+        $messages = [
+            'step_for_maid_profile.required' => 'field step_for_maid_profile is required',
+            'user_type.required' => 'field user_type is required',
+            'profile_image.required' => 'field profile_image is required',
+        ];
+        $validator = Validator::make($request->all(),$validations,$messages);
+        if( $validator->fails() ) {
+            $response = [
+                'message' => $validator->errors($validator)->first(),
+            ];
+            return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+        } else {
+            if($this->get_user_type($USER->user_type) != 2){
+                $response = [
+                    'message' => __('messages.invalid.request'),
+                ];
+                return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+            }else{
+                switch ($step_for_maid_profile) {
+                    case '1':
+                        foreach ($profile_image as $key => $value) {
+                            if($value){
+                                if($key == 0){
+                                    $uploadedfile = $_FILES['profile_image']['tmp_name'][$key];
+                                    $fileName1 = substr($this->uploadImage($value,$uploadedfile,$destinationPathOfProfile,$key),9);
+                                    $UserImage = UserImage::firstOrCreate([
+                                        'user_id' => $USER->id,
+                                        'type' => 1,
+                                        'status_by_admin' => 0,
+                                    ]);
+                                    $UserImage->image = $fileName1;
+                                }
+                                $UserImage->save();
+                                $USER->step_for_maid_profile = $step_for_maid_profile;
+                                $USER->save();
+                            }
+                        }
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        if($userData->city_id)
+                            $userData['city_name'] = City::find($userData->city_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----maid_complete_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+                    
+                    case '2':
+                        // dd('case 2');
+                        $City = City::firstOrCreate(['name' => $city ,'country_id' => $country_id]);
+                        $USER->country_id = $country_id;
+                        $USER->city_id = $City->id;
+                        $USER->district = $district;
+
+                        $USER->dob = $dob;
+                        $USER->gender = $gender;
+                        $USER->nationality = $nationality;
+                        $USER->marital_status = $marital_status;
+                        $USER->kids = $kids;
+                        $USER->hi_job = $hi_job;
+                        $USER->step_for_maid_profile = $step_for_maid_profile;
+                        $USER->save();
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        if($userData->city_id)
+                            $userData['city_name'] = City::find($userData->city_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----maid_complete_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+
+                    case '3':
+                        # code...
+                        break;
+                    default:
+                        dd('else');
+                        break;
+                }
+                  
+            }
+                
+        }
+
     }
 
     public function uploadImage($photo,$uploadedfile,$destinationPathOfPhoto,$key){

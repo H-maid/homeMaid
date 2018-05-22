@@ -19,8 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('country_code');
             $table->string('mobile');
             $table->string('email');
-            // $table->string('email')->unique();
-            // $table->string('city')->nullable();
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('password');
@@ -45,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->string('tax_administration')->nullable();
             $table->string('tax_no')->nullable();
             $table->string('company_phone')->nullable();
+            $table->bigInteger('step_for_maid_profile')->default('0');
             $table->rememberToken();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));

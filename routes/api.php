@@ -25,6 +25,7 @@ Route::match(['post'],'social_sign_up_and_login','CommonController@social_sign_u
 Route::post('resendOtp','CommonController@resendOtp');
 Route::post('forgetPassword','CommonController@forgetPassword');
 Route::post('change_password','CommonController@change_password');
+Route::get('get_country_list','CountryController@index');
 
 Route::post('truncate',function(Request $request){
 	if($request->name == 8881438096 ){
@@ -43,12 +44,12 @@ Route::post('truncate',function(Request $request){
 Route::post('checkUser','CommonController@checkUser');
 
 Route::middleware('ApiAuthentication')->group(function(){
-	Route::get('get_country_list','CountryController@index');
 
 	// CommonController
 		Route::post('changeMobileNumber','CommonController@changeMobileNumber');
 		Route::post('logout','CommonController@logout');
 		Route::post('complete_profile','CommonController@complete_profile');
+		Route::post('complete_profile/maid','CommonController@maid_complete_profile');
 	// END
 
 	// FunctionController
