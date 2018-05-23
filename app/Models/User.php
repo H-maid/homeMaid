@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Country;
+use App\Models\State;
 
 class User extends Authenticatable
 {
 
 	protected $fillable = [
-	  'name', 'country_code','mobile', 'email', 'password','otp' ,'status','user_type' ,'device_token','device_type','remember_token'];
+	  'name', 'country_code','mobile', 'email', 'password','otp' ,'status','user_type' ,'device_token','device_type','remember_token','state_id'];
 
 	protected $hidden = [
 	  'password',
@@ -34,11 +35,18 @@ class User extends Authenticatable
 		}
 	}
 
-	public function getCountryIdAttribute($value){
+	/*public function getCountryIdAttribute($value){
 		if($value)
 			return Country::find($value)->name;
 		else 
 			return '';
 	}
+
+	public function getStateIdAttribute($value){
+		if($value)
+			return State::find($value)->state_name;
+		else 
+			return '';
+	}*/
 
 }

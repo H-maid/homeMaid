@@ -33,8 +33,9 @@ class CreateUsersTable extends Migration
             $table->bigInteger('photo_email_status')->comment(' hide-from-other 0 , show-to-all 1')->default('1');
             $table->bigInteger('country_id')->nullable();
             $table->bigInteger('city_id')->nullable();
+            $table->bigInteger('state_id')->nullable();
                 $table->string('district')->nullable();
-                $table->string('nationality')->nullable();
+                $table->string('nationality_id')->nullable();
                 $table->string('marital_status')->nullable();
                 $table->string('kids')->nullable();
                 $table->string('hi_job')->nullable();

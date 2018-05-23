@@ -83,3 +83,10 @@ Route::middleware('ApiAuthentication')->group(function(){
 		Route::get('sync_contacts/{page?}','ContactController@sync_contacts');
 	// END
 });
+
+
+Route::post('get_state_under_country','CountryStateController@get_state_by_country');
+Route::post('get_nationality','NationalityController@list');
+Route::get('get_education','EducationController@list');
+Route::get('get_language','LanguageController@list');
+Route::get('get_pet_problems','PetProblemController@list');
