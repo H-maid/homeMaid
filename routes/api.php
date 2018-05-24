@@ -50,6 +50,7 @@ Route::middleware('ApiAuthentication')->group(function(){
 		Route::post('logout','CommonController@logout');
 		Route::post('complete_profile','CommonController@complete_profile');
 		Route::post('complete_profile/maid','CommonController@maid_complete_profile');
+		Route::post('get_profile','CommonController@get_profile');
 	// END
 
 	// FunctionController
@@ -90,3 +91,6 @@ Route::post('get_nationality','NationalityController@list');
 Route::get('get_education','EducationController@list');
 Route::get('get_language','LanguageController@list');
 Route::get('get_pet_problems','PetProblemController@list');
+Route::get('get_job_choices','JobChoiceController@list');
+Route::get('get_working_choices','WorkingStyleController@list');
+Route::get('get_skills','SkillController@list');

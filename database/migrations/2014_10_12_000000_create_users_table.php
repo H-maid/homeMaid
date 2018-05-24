@@ -45,6 +45,14 @@ class CreateUsersTable extends Migration
             $table->string('tax_no')->nullable();
             $table->string('company_phone')->nullable();
             $table->bigInteger('step_for_maid_profile')->default('0');
+            $table->bigInteger('maid_can_work_country_id')->nullable();
+            $table->string('can_live_with_family')->nullable();
+            $table->string('travel_situation')->nullable();
+            $table->string('expected_fees')->nullable();
+            $table->text('maid_education')->nullable();
+            $table->text('maid_certificate')->nullable();
+            $table->text('maid_about_me')->nullable();
+            $table->text('maid_work_experience')->nullable();
             $table->rememberToken();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
