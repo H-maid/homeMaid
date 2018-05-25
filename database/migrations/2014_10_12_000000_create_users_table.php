@@ -45,7 +45,6 @@ class CreateUsersTable extends Migration
             $table->string('tax_no')->nullable();
             $table->string('company_phone')->nullable();
             $table->bigInteger('step_for_maid_profile')->default('0');
-            $table->bigInteger('maid_can_work_country_id')->nullable();
             $table->string('can_live_with_family')->nullable();
             $table->string('travel_situation')->nullable();
             $table->string('expected_fees')->nullable();

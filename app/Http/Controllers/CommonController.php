@@ -17,6 +17,7 @@ use App\Models\UserEducation;
 use App\Models\UserPetProblem;
 use App\Models\PetProblem;
 use App\Models\MaidWorkingState;
+use App\Models\MaidWorkingCountry;
 use App\Models\MaidJobChoice;
 use App\Models\MaidWorkingStyle;
 use App\Models\MaidSkill;
@@ -782,7 +783,7 @@ class CommonController extends Controller
     }
 
     public function maid_complete_profile(Request $request){
-        Log::info('----------------------CommonController--------------------------maid_complete_profile'.print_r($request->all(),True));
+        Log::info('----------------------CommonController--------------------------maid_complete_profile'.print_r($request->toArray(),True));
         $USER =  $request->userDetail;
         $destinationPathOfProfile = public_path().'/'.'Images/';
         $profile_image = $request->profile_image;
@@ -808,7 +809,8 @@ class CommonController extends Controller
 
 
         $working_states = json_decode($request->working_states);
-        $maid_can_work_country_id = $request->maid_can_work_country_id;
+        $maid_can_work_country_id = json_decode($request->maid_can_work_country_id);
+        // $maid_can_work_country_id = $request->maid_can_work_country_id;
         $maid_job_choice_ids = json_decode($request->maid_job_choice_ids);
         $maid_working_style_ids = json_decode($request->maid_working_style_ids);
         $can_live_with_family = $request->can_live_with_family;
@@ -856,9 +858,9 @@ class CommonController extends Controller
             'expected_fees' => 'required_if:step_for_maid_profile,==,4',
             'maid_skill_ids' => 'required_if:step_for_maid_profile,==,4',
 
-            'maid_education' => 'required_if:step_for_maid_profile,==,5',
-            'maid_certificate' => 'required_if:step_for_maid_profile,==,5',
-            'maid_about_me' => 'required_if:step_for_maid_profile,==,5',
+            // 'maid_education' => 'required_if:step_for_maid_profile,==,5',
+            // 'maid_certificate' => 'required_if:step_for_maid_profile,==,5',
+            // 'maid_about_me' => 'required_if:step_for_maid_profile,==,5',
             // 'maid_work_experience' => 'required_if:step_for_maid_profile,==,5',
 
             'notification_status' => 'required_if:step_for_maid_profile,==,5',
@@ -898,6 +900,7 @@ class CommonController extends Controller
                                 }
                                 $UserImage->save();
                                 $USER->step_for_maid_profile = $step_for_maid_profile;
+                                $USER->complete_profile = 0;
                                 $USER->save();
                             }
                         }
@@ -925,6 +928,7 @@ class CommonController extends Controller
                         $USER->kids = $kids;
                         $USER->hi_job = $hi_job;
                         $USER->step_for_maid_profile = $step_for_maid_profile;
+                        $USER->complete_profile = 0;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         /*if($userData->city_id)
@@ -969,6 +973,7 @@ class CommonController extends Controller
                         $USER->smoke = $smoke;
                         $USER->alcohol = $alcohol;
                         $USER->step_for_maid_profile = $step_for_maid_profile;
+                        $USER->complete_profile = 0;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         if($userData->country_id)
@@ -993,7 +998,14 @@ class CommonController extends Controller
                         break;
 
                     case '4':
-                        $USER->maid_can_work_country_id = $maid_can_work_country_id;
+                        // $USER->maid_can_work_country_id = $maid_can_work_country_id;
+                        // dd($maid_can_work_country_id);
+                        if(count($maid_can_work_country_id)){
+                            foreach ($maid_can_work_country_id as $key => $value) {
+                              $data = MaidWorkingCountry::firstOrCreate(['user_id' => $USER->id , 'country_id' => $value]);
+                              $data->save();
+                            }
+                        }
                         if(count($working_states)){
                             foreach ($working_states as $key => $value) {
                               $data = MaidWorkingState::firstOrCreate(['user_id' => $USER->id , 'state_id' => $value]);
@@ -1023,6 +1035,7 @@ class CommonController extends Controller
                         $USER->travel_situation = $travel_situation;
                         $USER->expected_fees = $expected_fees;
                         $USER->step_for_maid_profile = $step_for_maid_profile;
+                        $USER->complete_profile = 0;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         if($userData->country_id)
@@ -1039,6 +1052,8 @@ class CommonController extends Controller
                         $userData['user_pet_problems'] = UserPetProblem::where('user_id',$USER->id)->with('pet_problem_detail')->select('user_id','pet_problem_id')->get();
                         if($USER->maid_can_work_country_id)
                             $userData['maid_can_work_country_name'] = Country::where('id',$userData->maid_can_work_country_id)->first()->name;
+
+                        $userData['maid_working_countries'] = MaidWorkingCountry::with('country_detail')->where('user_id',$USER->id)->select('user_id','country_id')->get();
 
                         $userData['maid_working_states'] = MaidWorkingState::with('state_detail')->where('user_id',$USER->id)->select('user_id','state_id')->get();
 
@@ -1061,6 +1076,7 @@ class CommonController extends Controller
                         $USER->maid_about_me = $maid_about_me;                        
                         $USER->step_for_maid_profile = $step_for_maid_profile;
                         $USER->notification_status = $notification_status;
+                        $USER->complete_profile = 1;
                         $USER->photo_email_status = $photo_email_status;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
@@ -1079,6 +1095,8 @@ class CommonController extends Controller
                         if($USER->maid_can_work_country_id)
                             $userData['maid_can_work_country_name'] = Country::where('id',$userData->maid_can_work_country_id)->first()->name;
 
+                        $userData['maid_working_countries'] = MaidWorkingCountry::with('country_detail')->where('user_id',$USER->id)->select('user_id','country_id')->get();
+                        
                         $userData['maid_working_states'] = MaidWorkingState::with('state_detail')->where('user_id',$USER->id)->select('user_id','state_id')->get();
 
                         $userData['maid_job_choices'] = MaidJobChoice::with('job_choice_detail')->where('user_id',$USER->id)->select('user_id','job_choice_id')->get();
