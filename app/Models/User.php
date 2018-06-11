@@ -35,18 +35,34 @@ class User extends Authenticatable
 		}
 	}
 
-	/*public function getCountryIdAttribute($value){
-		if($value)
-			return Country::find($value)->name;
-		else 
-			return '';
+	public static function get_user_count($user_type = null ,$date = null){
+		if($user_type){
+			$data = Self::where([
+				'complete_profile' => 1 , 
+				'status' => 1 , 
+				'user_type' => $user_type , 
+			])
+			->count();
+			return $data;
+		}
+		else if($date){
+			$data = Self::whereDate('created_at',$date)
+			->where([
+				'complete_profile' => 1 , 
+				'status' => 1 , 
+			])
+			->count();
+			return $data;
+		}
+
+
+		else{
+			$data = Self::where([
+				'complete_profile' => 1 , 
+				'status' => 1 , 
+			])
+			->count();
+			return $data;
+		}
 	}
-
-	public function getStateIdAttribute($value){
-		if($value)
-			return State::find($value)->state_name;
-		else 
-			return '';
-	}*/
-
 }

@@ -26,6 +26,8 @@
                                           <th>Name</th>
                                           <th>Email</th>
                                           <th>Mobile</th>
+                                          <th>Rank</th>
+                                          <th>Review</th>
                                           <th>Action</th>
                                       </tr>
                                   </thead>
@@ -34,9 +36,18 @@
                                     @foreach($data as $key => $user)
                                       <tr>
                                           <td>{{++$key}}</td>
-                                          <td>{{$user->first_name}} {{$user->last_name}}</td>
-                                          <td>{{$user->email}}</td>
+                                          <td>{{ucfirst($user->name)}}</td>
+                                          <td>{{ucfirst($user->email)}}</td>
                                           <td>{{$user->mobile}}</td>
+                                          <td><span>5</span> Star</td>
+                                          <td>
+                                            <button class="btn btn-info btn-sm btn-labeled" type="button" data-toggle="modal" data-target="#viewPost">
+                                              <span class="btn-label">
+                                                <span class="icon icon-eye icon-lg icon-fw"></span>
+                                              </span>
+                                                View review
+                                            </button> 
+                                          </td>
                                           <td class="">
                                             @if($user->status == 1)
                                               <button class="btn btn-danger btn-sm btn-labeled BlockUser-UserManagement" type="button" data-toggle="modal" data-target="#BlockUser" data-id="{{$user->id}}">
@@ -115,4 +126,62 @@
       <div class="modal-footer"></div>
     </div>
   </div>      
+</div>
+
+<div id="viewPost" tabindex="-1" role="dialog" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Review detail</h4>
+            </div>
+            <div class="modal-body provider-detail">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card-body">
+                            <table id="" class="table table-striped table-bordered table-wrap " cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="">Sr. No.</th>
+                                        <th style="width: 40%;">Review</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>lorem ipsum is the dummy content for the uploading as a dummy content on the website </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm btn-labeled" type="button">
+                                                <span class="btn-label">
+                               <span class="icon icon-bank icon-lg icon-fw"></span>
+                                                </span>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>lorem ipsum is the dummy content for the uploading as a dummy content on the website </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm btn-labeled" type="button">
+                                                <span class="btn-label">
+                               <span class="icon icon-bank icon-lg icon-fw"></span>
+                                                </span>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
 </div>

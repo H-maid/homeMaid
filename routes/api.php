@@ -94,3 +94,7 @@ Route::get('get_pet_problems','PetProblemController@list');
 Route::get('get_job_choices','JobChoiceController@list');
 Route::get('get_working_choices','WorkingStyleController@list');
 Route::get('get_skills','SkillController@list');
+
+
+
+Route::get('/data','CommonController@getArrayAppUIConfig');

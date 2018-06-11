@@ -15,15 +15,19 @@
     <link rel="stylesheet" href="{{asset('Admin/css/application.min.css')}}">
     <link rel="stylesheet" href="{{asset('Admin/css/profile.min.css')}}">
     <link rel="stylesheet" href="{{asset('Admin/css/demo.min.css')}}">
-     <link rel="stylesheet" href="{{asset('Admin/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('Admin/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('Admin/css/product.min.css')}}">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
  
-  </head>
+</head>
+
+
   <body class="layout layout-header-fixed">
     <div class="layout-header">
       <div class="navbar navbar-default">
         <div class="navbar-header">
-          <a class="navbar-brand navbar-brand-center" href="index.html">
-            <!-- <img class="navbar-brand-logo" src="{{asset('Admin/img/logo.png')}}" alt="Elephant"> -->
+          <a class="navbar-brand navbar-brand-center" href="#">
+            <img class="navbar-brand-logo" src="{{asset('Admin/img/logo.png')}}" alt="Elephant">
           </a>
           <button class="navbar-toggler visible-xs-block collapsed" type="button" data-toggle="collapse" data-target="#sidenav">
             <span class="sr-only">Toggle navigation</span>
@@ -232,6 +236,11 @@
         </div>
       </div>
     </div>
+
+
+
+
+
     <div class="layout-main">
       <div class="layout-sidebar">
         <div class="layout-sidebar-backdrop"></div>
@@ -253,12 +262,49 @@
                     <span class="sidenav-label">Profile</span>
                   </a>
                 </li>
-                <li class="sidenav-item accountNav">
-                  <a href="{{url('admin/user-management')}}" aria-haspopup="true">
+                
+                <li class="sidenav-item has-subnav accountNav">
+                  <a href="#" aria-haspopup="true" aria-expanded="true">
                     <span class="sidenav-icon icon icon-users"></span>
-                    <span class="sidenav-label">User management</span>
+                    <span class="sidenav-label">Account management</span>
+                  </a>
+                  <ul class="sidenav-subnav collapse" aria-expanded="true" style="">
+                    <li class="accNav-a"><a href="{{url('admin/user-management')}}">User</a></li>
+                    <li class="accNav-b"><a href="{{url('admin/maid-management')}}">Maid</a></li>
+                    <li class="accNav-c"><a href="{{url('admin/agency-management')}}">Agency</a></li>
+                  </ul>
+                </li>
+
+
+                <!-- <li class="sidenav-item has-subnav verificationNav">
+                  <a href="#" aria-haspopup="true" aria-expanded="true">
+                    <span class="sidenav-icon icon icon-users"></span>
+                    <span class="sidenav-label">Verification</span>
+                  </a>
+                  <ul class="sidenav-subnav collapse" aria-expanded="true" style="">
+                    <li class="verifyNav-a"><a href="maid-verify.php">Maid verification</a></li>
+                    <li class="verifyNav-b"><a href="agency-verify.php">Agency verification</a></li>
+                  </ul>
+                </li>
+                <li class="sidenav-item paymentNav">
+                  <a href="paymentMgt.php" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-dollar"></span>
+                    <span class="sidenav-label">Payment management</span>
                   </a>
                 </li>
+                <li class="sidenav-item chatPageNav">
+                  <a href="chatMgt.php" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-user"></span>
+                    <span class="sidenav-label">Chat management</span>
+                  </a>
+                </li>
+                <li class="sidenav-item ratingPageNav">
+                  <a href="ratingMgt.php" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-star"></span>
+                    <span class="sidenav-label">Rating management</span>
+                  </a>
+                </li> -->
+
           </ul>
             </nav>
           </div>

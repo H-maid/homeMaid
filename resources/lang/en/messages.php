@@ -93,8 +93,12 @@ return [
 		'password_reset_success' => 'Password reset successful.',
 		'invalid_reset_token' => 'Invalid password reset token.',
 		'password_changed' => 'Password changed successfully.',
-		'block_success' => 'User blocked successfully.',
-		'unblock_success' => 'User un-blocked successfully.',
+		'block_success_user' => 'User blocked successfully.',
+		'block_success_maid' => 'Maid blocked successfully.',
+		'block_success_agency' => 'Agency blocked successfully.',
+		'unblock_success_user' => 'User un-blocked successfully.',
+		'unblock_success_maid' => 'Maid un-blocked successfully.',
+		'unblock_success_agency' => 'Agency un-blocked successfully.',
 
 	],
 

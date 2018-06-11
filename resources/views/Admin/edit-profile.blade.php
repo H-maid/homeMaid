@@ -6,8 +6,7 @@
         <div class="title-bar">
 
             <h1 class="title-bar-title">
-              <span class="d-ib">Edit Profile /</span>
-              <a href="profile.php">Back</a>
+              <span class="d-ib">Edit Profile </span>
             </h1>
             <p class="title-bar-description">
                 <small>Welcome to News App</small>
@@ -15,7 +14,6 @@
         </div>
 
         <div class="row gutter-xs">
-
 
             <div class="col-md-8 card panel-body  " id="">
                 <div class="col-sm-12 col-md-12">
@@ -46,7 +44,7 @@
                                 </div>
 
                             </div>
-                   
+
                             <div class="form-group">
                                 <div class="col-md-8">
                                     <label for="email-2" class=" control-label">Location</label>
@@ -62,14 +60,13 @@
                                     <textarea id="" name="about_me" class="form-control" rows="5">{{Auth::guard('admin')->user()->about_me}}</textarea>
                                 </div>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <div class="col-md-8">
                                     <label for="address" class=" control-label">Address</label>
 
                                     <textarea id="" name="address" class="form-control" rows="5">{{Auth::guard('admin')->user()->address}}</textarea>
                                 </div>
                             </div>
-
 
                             <div class="form-group">
                                 <div class=" col-sm-8  col-md-8 ">
@@ -85,7 +82,5 @@
 
     </div>
 </div>
-
-
 
 @include('Admin/footer')

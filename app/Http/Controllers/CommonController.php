@@ -20,6 +20,8 @@ use App\Models\MaidWorkingState;
 use App\Models\MaidWorkingCountry;
 use App\Models\MaidJobChoice;
 use App\Models\MaidWorkingStyle;
+use App\Models\MaidWorkingCity;
+use App\Models\MaidWorkingDistrict;
 use App\Models\MaidSkill;
 use Twilio\Rest\Client;
 use Log;
@@ -27,6 +29,7 @@ use Hash;
 use App;
 use Auth;
 use Exception;
+use stdClass;
 class CommonController extends Controller
 {
 	public function __construct(Request $request){
@@ -39,6 +42,18 @@ class CommonController extends Controller
         	\App::setLocale($locale);
         }
 	}
+
+    /*public function getArrayAppUIConfig() {
+        $obj = new stdClass();
+        $obj->uiHomeBtnR1C1 =  'Attendance';
+        $obj->uiHomeBtnR1C2 =  'Messages';
+        $obj->uiHomeBtnR2C1 =  'Update Visits';
+        $obj->uiHomeBtnR2C2 =  'Submit Report';
+        $obj->uiHomeBtnR3C1 =  'Map View';
+        $obj->uiHomeBtnR3C2 =  'Account Info';
+        return response()->json($obj,200);
+    }*/
+
 
     public function checkUser(Request $request){
         $social_id = $request->social_id;
@@ -790,8 +805,8 @@ class CommonController extends Controller
         $step_for_maid_profile = $request->step_for_maid_profile;
         $country_id = $request->country_id;
         $state_id = $request->state_id;
-        // $city = $request->city;
-        // $district = $request->district;
+        $city = json_decode($request->city);
+        $district = json_decode($request->district);
         $dob = $request->dob;
         $gender = $request->gender;
         $nationality_id = $request->nationality_id;
@@ -833,7 +848,6 @@ class CommonController extends Controller
             'profile_image' => 'required_if:step_for_maid_profile,==,1|array',
             'country_id' => "required_if:step_for_maid_profile,==,2",
             'state_id' => 'required_if:step_for_maid_profile,==,2',
-            // 'city' => 'required_if:step_for_maid_profile,==,2',
             'dob' => 'required_if:step_for_maid_profile,==,2|date_format:"Y-m-d"',
             'gender' => 'required_if:step_for_maid_profile,==,2',
             'nationality_id' => 'required_if:step_for_maid_profile,==,2',
@@ -851,6 +865,8 @@ class CommonController extends Controller
 
             'maid_can_work_country_id' => 'required_if:step_for_maid_profile,==,4',
             'working_states' => 'required_if:step_for_maid_profile,==,4',
+            'city' => 'required_if:step_for_maid_profile,==,4',
+            'district' => 'required_if:step_for_maid_profile,==,4',
             'maid_job_choice_ids' => 'required_if:step_for_maid_profile,==,4',
             'maid_working_style_ids' => 'required_if:step_for_maid_profile,==,4',
             'can_live_with_family' => 'required_if:step_for_maid_profile,==,4',
@@ -1000,6 +1016,20 @@ class CommonController extends Controller
                     case '4':
                         // $USER->maid_can_work_country_id = $maid_can_work_country_id;
                         // dd($maid_can_work_country_id);
+                        if(count($city)){
+                            foreach ($city as $key => $value) {
+                              $data = MaidWorkingCity::firstOrCreate(['user_id' => $USER->id , 'city_id' => $value]);
+                              $data->save();
+                            }
+                        }
+
+                        if(count($district)){
+                            foreach ($district as $key => $value) {
+                              $data = MaidWorkingDistrict::firstOrCreate(['user_id' => $USER->id , 'district_id' => $value]);
+                              $data->save();
+                            }
+                        }
+
                         if(count($maid_can_work_country_id)){
                             foreach ($maid_can_work_country_id as $key => $value) {
                               $data = MaidWorkingCountry::firstOrCreate(['user_id' => $USER->id , 'country_id' => $value]);
@@ -1054,6 +1084,10 @@ class CommonController extends Controller
                             $userData['maid_can_work_country_name'] = Country::where('id',$userData->maid_can_work_country_id)->first()->name;
 
                         $userData['maid_working_countries'] = MaidWorkingCountry::with('country_detail')->where('user_id',$USER->id)->select('user_id','country_id')->get();
+
+                        $userData['maid_working_cities'] = MaidWorkingCity::with('city_detail')->where('user_id',$USER->id)->select('user_id','city_id')->get();
+
+                        $userData['maid_working_districts'] = MaidWorkingDistrict::with('district_detail')->where('user_id',$USER->id)->select('user_id','district_id')->get();
 
                         $userData['maid_working_states'] = MaidWorkingState::with('state_detail')->where('user_id',$USER->id)->select('user_id','state_id')->get();
 

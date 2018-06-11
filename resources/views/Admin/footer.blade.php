@@ -1,6 +1,6 @@
 <div class="layout-footer">
     <div class="layout-footer-body">
-        <small class="copyright">2018 &copy; Wedmojo Pvt. Ltd.</small>
+        <small class="copyright">2018 &copy; House Maid Pvt. Ltd.</small>
     </div>
 </div>
 </div>
@@ -30,17 +30,23 @@
           $('.accountNav').addClass("open");
           $('.accountNav ul').css("display","block");
         }
-        if ( $('.serviceProviderPage').length ) {
+
+        if ( $('.maidListPage').length ) {
           $('.sidenav-item').removeClass("active");
           $('.accNav-b').addClass("active");
           $('.accountNav').addClass("open");
           $('.accountNav ul').css("display","block");
         }
-        if ( $('.verificationPage').length ) {
+        
+        if ( $('.agencyListPage').length ) {
           $('.sidenav-item').removeClass("active");
-          $('.verificationNav').addClass("active");
+          $('.accNav-c').addClass("active");
+          $('.accountNav').addClass("open");
+          $('.accountNav ul').css("display","block");
         }
       });
+
+
       $(window).scroll(function (){
           var window_top = $(window).scrollTop();
           var div_top = $('.tabs-new').position().top;
@@ -109,6 +115,31 @@
           var user_id = $(this).attr('data-id');
           console.log(user_id);
           $('.UnBlockUserUserManagementContinue').attr('href',"{{url('admin/block-unblock-user')}}/"+user_id+'/'+'1');
+        });
+
+        $('.BlockUser-UserManagement').click(function(){
+          var user_id = $(this).attr('data-id');
+          console.log(user_id);
+          $('.BlockUserMaidManagementContinue').attr('href',"{{url('admin/block-unblock-maid')}}/"+user_id+'/'+'0');
+        });
+
+         $('.UnBlockUser-UserManagement').click(function(){
+          var user_id = $(this).attr('data-id');
+          console.log(user_id);
+          $('.UnBlockUserMaidManagementContinue').attr('href',"{{url('admin/block-unblock-maid')}}/"+user_id+'/'+'1');
+        });
+
+
+        $('.BlockUser-UserManagement').click(function(){
+          var user_id = $(this).attr('data-id');
+          console.log(user_id);
+          $('.BlockUserAgencyManagementContinue').attr('href',"{{url('admin/block-unblock-agency')}}/"+user_id+'/'+'0');
+        });
+
+         $('.UnBlockUser-UserManagement').click(function(){
+          var user_id = $(this).attr('data-id');
+          console.log(user_id);
+          $('.UnBlockUserAgencyManagementContinue').attr('href',"{{url('admin/block-unblock-agency')}}/"+user_id+'/'+'1');
         });
       });
     </script>
