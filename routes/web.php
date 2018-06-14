@@ -48,7 +48,12 @@ Route::group(['prefix' => '/admin' , 'middleware' => ['admin']],function(){
 		
 	///////////END/////////////////////////////////////////////////////
 
+	/////////////////////////////UserVerificationController//////////////////////////
 
+		Route::match(['get','post'],'/agency-verification',['uses' => 'Admin\UserVerificationController@agency_verification' , 'as' => 'admin.agency_verification']);
+		Route::match(['get','post'],'/maid-verification',['uses' => 'Admin\UserVerificationController@maid_verification' , 'as' => 'admin.maid_verification']);
+
+	///END
 	
 
 
@@ -59,3 +64,21 @@ Route::get('/admin/logout',['uses' => 'Admin\AdminController@logout' , 'as' => '
 Route::match(['get','post'],'/admin/forget-password',['uses' => 'Admin\AdminController@forget_password' , 'as' => 'admin.forget-password']);
 Route::match(['get','post'],'/admin/reset-password/{token?}',['uses' => 'Admin\AdminController@reset_password' , 'as' => 'admin.reset-password']);
 Route::post('check','Admin\AdminController@check');
+
+
+Route::get('test',function(){
+		$temp = 0;
+		for ($i=1; $i < 7; $i++) { 
+			for ($j=1; $j <= $i; $j++) { 
+				if($i == 1) {
+					$temp = $j;
+					echo $j.'&nbsp';
+				}else{
+					$add = $j+1;
+					$temp = $temp+$add;
+					echo $temp.'&nbsp';
+				}
+			}
+			echo '<br>';
+		}
+});

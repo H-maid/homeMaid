@@ -276,17 +276,17 @@
                 </li>
 
 
-                <!-- <li class="sidenav-item has-subnav verificationNav">
+                <li class="sidenav-item has-subnav verificationNav">
                   <a href="#" aria-haspopup="true" aria-expanded="true">
                     <span class="sidenav-icon icon icon-users"></span>
                     <span class="sidenav-label">Verification</span>
                   </a>
                   <ul class="sidenav-subnav collapse" aria-expanded="true" style="">
-                    <li class="verifyNav-a"><a href="maid-verify.php">Maid verification</a></li>
-                    <li class="verifyNav-b"><a href="agency-verify.php">Agency verification</a></li>
+                    <li class="verifyNav-a"><a href="{{url('admin/maid-verification')}}">Maid verification</a></li>
+                    <li class="verifyNav-b"><a href="{{url('admin/agency-verification')}}">Agency verification</a></li>
                   </ul>
                 </li>
-                <li class="sidenav-item paymentNav">
+               <!--  <li class="sidenav-item paymentNav">
                   <a href="paymentMgt.php" aria-haspopup="true">
                     <span class="sidenav-icon icon icon-dollar"></span>
                     <span class="sidenav-label">Payment management</span>
@@ -303,8 +303,8 @@
                     <span class="sidenav-icon icon icon-star"></span>
                     <span class="sidenav-label">Rating management</span>
                   </a>
-                </li> -->
-
+                </li>
+ -->
           </ul>
             </nav>
           </div>

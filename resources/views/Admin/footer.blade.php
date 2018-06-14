@@ -44,6 +44,21 @@
           $('.accountNav').addClass("open");
           $('.accountNav ul').css("display","block");
         }
+
+        if ( $('.maidVerification').length ) {
+          $('.sidenav-item').removeClass("active");
+          $('.verifyNav-a').addClass("active");
+          $('.verificationNav').addClass("open");
+          $('.verificationNav ul').css("display","block");
+        }
+        if ( $('.agencyVerification').length ) {
+          $('.sidenav-item').removeClass("active");
+          $('.verifyNav-b').addClass("active");
+          $('.verificationNav').addClass("open");
+          $('.verificationNav ul').css("display","block");
+        }
+
+      
       });
 
 

@@ -25,7 +25,6 @@ Route::match(['post'],'social_sign_up_and_login','CommonController@social_sign_u
 Route::post('resendOtp','CommonController@resendOtp');
 Route::post('forgetPassword','CommonController@forgetPassword');
 Route::post('change_password','CommonController@change_password');
-Route::get('get_country_list','CountryController@index');
 
 Route::post('truncate',function(Request $request){
 	if($request->name == 8881438096 ){
@@ -83,9 +82,18 @@ Route::middleware('ApiAuthentication')->group(function(){
 		Route::post('sync_contacts','ContactController@sync_contacts');
 		Route::get('sync_contacts/{page?}','ContactController@sync_contacts');
 	// END
+
+
+	// PostJobController
+		Route::post('post_job_by_user','PostJobController@index');
+
+	// END
 });
 
-
+Route::get('get_currency_list','CurrencyController@index');
+Route::get('get_country_list','CountryController@index');
+Route::post('get_city_list','CityController@index');
+Route::post('get_district_list','DistrictController@index');
 Route::post('get_state_under_country','CountryStateController@get_state_by_country');
 Route::post('get_nationality','NationalityController@list');
 Route::get('get_education','EducationController@list');
