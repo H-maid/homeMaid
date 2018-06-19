@@ -50,43 +50,16 @@ Route::middleware('ApiAuthentication')->group(function(){
 		Route::post('complete_profile','CommonController@complete_profile');
 		Route::post('complete_profile/maid','CommonController@maid_complete_profile');
 		Route::post('get_profile','CommonController@get_profile');
+		Route::post('update_user_location','CommonController@update_user_location');
 	// END
-
-	// FunctionController
-		Route::post('create_function','FunctionController@create_function');
-		Route::get('get_function','FunctionController@get_function');
-		Route::post('edit_function','FunctionController@edit_function');
-	// END
-
-	// WeddingController
-		Route::match(['post','get'],'setup_wedding','WeddingController@setup_wedding');
-	// END
-
-	//HostContoller
-		Route::post('create_host','HostController@create_host');
-		Route::post('edit_host','HostController@edit_host');
-		Route::post('delete_host','HostController@delete_host');
-		Route::match(['get','post'],'get_host','HostController@get_host');
-	//END
-
-	// FeedController
-		Route::match(['post'],'feeds','FeedController@feeds');
-		Route::match(['post'],'get_feeds_by_wedding','FeedController@get_feeds_by_wedding');
-		Route::match(['post'],'update_feed','FeedController@update_feed');
-		Route::match(['post'],'delete_feed','FeedController@delete_feed');
-		Route::match(['post'],'report_on_feed','FeedController@report_on_feed');
-		Route::match(['post'],'hide_feeds','FeedController@hide_feeds');
-	// END
-
-	// ContactController
-		Route::post('sync_contacts','ContactController@sync_contacts');
-		Route::get('sync_contacts/{page?}','ContactController@sync_contacts');
-	// END
-
 
 	// PostJobController
 		Route::post('post_job_by_user','PostJobController@index');
 
+	// END
+
+	// JobListingTitle
+		Route::get('job_listing_title','JobListingTitle@index');
 	// END
 });
 

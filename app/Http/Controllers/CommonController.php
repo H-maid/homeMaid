@@ -54,6 +54,21 @@ class CommonController extends Controller
         return response()->json($obj,200);
     }*/
 
+    public function update_user_location(Request $request){
+       $userDetail = $request->userDetail;
+       $userDetail->location_text = $request->location_text;
+       $userDetail->latitude = $request->latitude;
+       $userDetail->longitude = $request->longitude;
+       $userDetail->save();
+
+        $Response = [
+          'message'  => trans('messages.success.success'),
+          'response' => User::find($userDetail->id)
+        ];
+        return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
+
+    }
+
 
     public function checkUser(Request $request){
         $social_id = $request->social_id;
