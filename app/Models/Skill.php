@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Skill extends Model
 {
-    use SoftDeletes;
+ 	use SoftDeletes;
 	protected $table = 'skills';
+	protected $guarded = [];
 }

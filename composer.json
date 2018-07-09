@@ -10,6 +10,7 @@
         "jenssegers/mongodb": "*",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "~3.0",
         "twilio/sdk": "^5.18"
     },
     "require-dev": {

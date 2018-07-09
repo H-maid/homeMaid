@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MaidSkill extends Model
 {
  	use SoftDeletes;
-   	protected $table = 'maid_skill';
-   	protected $fillable = ['user_id','skill_id'];
-
+	protected $table = 'maid_skill';
+	protected $fillable = ['user_id','skill_id'];
+	protected $hidden = ['deleted_at'];
+   	
 	public function skill_detail(){
 		return $this->hasOne(\App\Models\Skill::class,'id','skill_id')->select('id','name');
 	}

@@ -15,4 +15,15 @@ class WorkingStyleController extends Controller
 		];
 		return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
 	}
+
+	public function save(Request $request){
+    	// return $request->all();
+    	$data = WorkingStyle::firstOrNew(['name' => $request->work_style]);
+		if(!$data->exists){
+    		$data->save();
+			return '1';
+		}else{
+			return '0';
+		}    	
+	}
 }

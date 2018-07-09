@@ -43,10 +43,10 @@ class UserManagementController extends Controller
         $user->save();
         switch ($status) {
             case '0':
-                return redirect('admin/user-management')->with('block_unblock_success',__('messages.adminMessages.block_success'));
+                return redirect('admin/user-management')->with('block_unblock_success',__('messages.adminMessages.block_success_user'));
                 break;
             case '1':
-                return redirect('admin/user-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success'));
+                return redirect('admin/user-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success_user'));
                 break;
         }
     }
@@ -59,10 +59,10 @@ class UserManagementController extends Controller
         $user->save();
         switch ($status) {
             case '0':
-                return redirect('admin/maid-management')->with('block_unblock_success',__('messages.adminMessages.block_success'));
+                return redirect('admin/maid-management')->with('block_unblock_success',__('messages.adminMessages.block_success_maid'));
                 break;
             case '1':
-                return redirect('admin/maid-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success'));
+                return redirect('admin/maid-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success_maid'));
                 break;
         }
     }
@@ -75,10 +75,10 @@ class UserManagementController extends Controller
         $user->save();
         switch ($status) {
             case '0':
-                return redirect('admin/agency-management')->with('block_unblock_success',__('messages.adminMessages.block_success'));
+                return redirect('admin/agency-management')->with('block_unblock_success',__('messages.adminMessages.block_success_agency'));
                 break;
             case '1':
-                return redirect('admin/agency-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success'));
+                return redirect('admin/agency-management')->with('block_unblock_success',__('messages.adminMessages.unblock_success_agency'));
                 break;
         }
     }

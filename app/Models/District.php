@@ -8,5 +8,5 @@ class District extends Model
 {
  	use SoftDeletes;
 	protected $table = 'district';
-	protected $fillable = ['name','country_id'];
+	protected $guarded = [];
 }

@@ -9,6 +9,6 @@ class JobChoice extends Model
 {
    use SoftDeletes;
    protected $table = 'job_choices';
-   protected $fillable = ['name'];
+   protected $guarded = [];
 
 }

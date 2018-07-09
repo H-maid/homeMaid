@@ -9,4 +9,5 @@ class Language extends Model
 {
    use SoftDeletes;
    protected $table = 'languages';
+   protected $guarded = [];
 }

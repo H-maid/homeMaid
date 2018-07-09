@@ -9,5 +9,5 @@ class City extends Model
 {
 	use SoftDeletes;
 	protected $table = 'city';
-	protected $fillable = ['name','country_id'];
+	protected $guarded = [];
 }

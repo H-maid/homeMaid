@@ -21,6 +21,7 @@ use App\Models\MaidWorkingCountry;
 use App\Models\MaidJobChoice;
 use App\Models\MaidWorkingStyle;
 use App\Models\MaidWorkingCity;
+use App\Models\MaidWorkExperience;
 use App\Models\MaidWorkingDistrict;
 use App\Models\MaidSkill;
 use Twilio\Rest\Client;
@@ -32,6 +33,7 @@ use Exception;
 use stdClass;
 class CommonController extends Controller
 {
+	
 	public function __construct(Request $request){
 		$timezone = $request->header('timezone');
 		$locale = $request->header('locale');
@@ -54,26 +56,84 @@ class CommonController extends Controller
         return response()->json($obj,200);
     }*/
 
+    public function get_location(Request $request){
+        $userDetail = $request->userDetail;
+        $response = [
+            'location_text' => $userDetail->location_text,
+            'latitude' => $userDetail->latitude,
+            'longitude' => $userDetail->longitude,
+        ];
+        $Response = [
+          'message'  => trans('messages.success.success'),
+          'response' => $response
+        ];
+        return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
+    }
+
+
     public function update_user_location(Request $request){
        $userDetail = $request->userDetail;
        $userDetail->location_text = $request->location_text;
        $userDetail->latitude = $request->latitude;
        $userDetail->longitude = $request->longitude;
        $userDetail->save();
-
-        $Response = [
-          'message'  => trans('messages.success.success'),
-          'response' => User::find($userDetail->id)
-        ];
-        return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
-
+		$Response = [
+		  'message'  => trans('messages.success.success'),
+		  'response' => User::find($userDetail->id)
+		];
+		return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
     }
 
+    public function setting(Request $request){
+        $userDetail = $request->userDetail;
+        $key = $request->key;
+        $notification_status = $request->notification_status;
+        $photo_email_status = $request->photo_email_status;
+        $validations = [
+            'key' => 'required',
+            'notification_status' => 'required_if:key,1',
+            'photo_email_status' => 'required_if:key,2',
+        ];
+        $validator = Validator::make($request->all(),$validations);
+        if($validator->fails()){
+            $response = [
+                'message' => $validator->errors($validator)->first()
+            ];
+            return response()->json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+        }
+
+        switch ($key) {
+            case '1':
+                $userDetail->notification_status = $notification_status;
+                $userDetail->save();
+                $res = [
+                    'notification_status' => $userDetail->notification_status
+                ];
+                $Response = [
+                  'message'  => trans('messages.success.success'),
+                  'response' => $res
+                ];
+                return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
+                break;
+            case '2':
+                $userDetail->photo_email_status = $photo_email_status;
+                $userDetail->save();
+                $res = [
+                    'photo_email_status' => $userDetail->photo_email_status
+                ];
+                $Response = [
+                  'message'  => trans('messages.success.success'),
+                  'response' => $res
+                ];
+                return Response::json( $Response , trans('messages.statusCode.ACTION_COMPLETE') );
+                break;
+        }
+    }
 
     public function checkUser(Request $request){
         $social_id = $request->social_id;
         $email = $request->email;
-         $validations = [
+        $validations = [
             'social_id' => 'required',
             'email' => 'required|email:unique',
         ];
@@ -143,7 +203,7 @@ class CommonController extends Controller
                 $user->created_at = time();
                 $user->updated_at = time();
                 $user->save();
-                $userData = User::where(['id' => $user->id])->first();
+                $userData = User::where('users.id',$user->id)->leftjoin('user_images','users.id','=','user_images.user_id')->select('users.*','user_images.image as profile_pic')->first();
                 $userData['otp_response'] = $this->sendOtp($country_code.$mobile,$otp);
                 $response = [
                     'message' =>  __('messages.success.signup'),
@@ -199,7 +259,7 @@ class CommonController extends Controller
                     $UserDetail->remember_token = $accessToken;
                     $UserDetail->updated_at = time();
                     $UserDetail->save();
-                    $result = $User::find($userDetail->id); 
+                    $result = $User::where('users.id',$userDetail->id)->leftjoin('user_images','users.id','=','user_images.user_id')->select('users.*','user_images.image as profile_pic')->first();
                     $response = [
                         'message' =>  __('messages.success.login'),
                         'response' => $result
@@ -659,12 +719,10 @@ class CommonController extends Controller
     }
 
     public function complete_profile(Request $request){
-        Log::info('----------------------CommonController--------------------------complete_profile'.print_r($request->all(),True));
         $destinationPathOfProfile = public_path().'/'.'Images/';
         $profile_image = $request->profile_image;
         $country_id = $request->country_id;
         $state_id = $request->state_id;
-        // $city = $request->city;
         $dob = $request->dob;
         $gender = $request->gender;
         $marital_status = $request->marital_status;
@@ -672,13 +730,13 @@ class CommonController extends Controller
         $photo_email_status = $request->photo_email_status;
         $USER =  $request->userDetail;
         $key = $request->user_type;
-        
 
         $company_name = $request->company_name;
         $authorised_person = $request->authorised_person;
         $tax_administration = $request->tax_administration;
         $tax_no = $request->tax_no;
         $company_phone = $request->company_phone;
+        $address = $request->address;
 
         if(count($USER)){
             $validations = [
@@ -698,6 +756,7 @@ class CommonController extends Controller
                 'tax_administration' => 'required_if:user_type,==,3',
                 'tax_no' => 'required_if:user_type,==,3',
                 'company_phone' => 'required_if:user_type,==,3',
+                'address' => 'required_if:user_type,==,3'
             ];
             $messages = [
                 'user_type.required' => 'field user_type is required',
@@ -709,6 +768,7 @@ class CommonController extends Controller
                 'notification_status.required' => 'field notification_status is required',
                 'photo_email_status.required' => 'field photo_email_status is required',
                 'state_id.required' => 'field state_id is required',
+                'address.required' => 'field address is required',
             ];
             $validator = Validator::make($request->all(),$validations,$messages);
             if( $validator->fails() ) {
@@ -723,7 +783,6 @@ class CommonController extends Controller
                     ];
                     return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
                 }
-                // dd('else');
                 switch ($key) {
                     case '1': // user
                         foreach ($profile_image as $key => $value) {
@@ -739,11 +798,9 @@ class CommonController extends Controller
                                     $UserImage->image = $fileName1;
                                 }
                                 $UserImage->save();
-                                // $City = City::firstOrCreate(['name' => $city ,'country_id' => $country_id]);
                                 $USER->complete_profile = 1;
                                 $USER->country_id = $country_id;
                                 $USER->state_id = $state_id;
-                                // $USER->city_id = $City->id;
                                 $USER->dob = $dob;
                                 $USER->gender = $gender;
                                 $USER->marital_status = $marital_status;
@@ -755,7 +812,6 @@ class CommonController extends Controller
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         $userData['country_name'] = Country::find($userData->country_id)->name;
                         $userData['state_name'] = State::find($userData->state_id)->name;
-                        // $userData['city_name'] = City::find($userData->city_id)->name;
                         $response = [
                             'message' =>  __('messages.success.profile_updated'),
                             'response' => $userData,
@@ -764,7 +820,7 @@ class CommonController extends Controller
                         return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
                         break;
 
-                    case '3': // maid
+                    case '3': // agency
                         foreach ($profile_image as $key => $value) {
                             if($value){
                                 if($key == 0){
@@ -778,13 +834,12 @@ class CommonController extends Controller
                                     $UserImage->image = $fileName1;
                                 }
                                 $UserImage->save();
-                                // $City = City::firstOrCreate(['name' => $city ,'country_id' => $country_id]);
                                 $USER->complete_profile = 1;
                                 $USER->company_name = $company_name;
                                 $USER->authorised_person = $authorised_person;
                                 $USER->country_id = $country_id;
                                 $USER->state_id = $state_id;
-                                // $USER->city_id = $City->id;
+                                $USER->address = $address;
                                 $USER->tax_administration = $tax_administration;
                                 $USER->tax_no = $tax_no;
                                 $USER->company_phone = $company_phone;
@@ -812,6 +867,117 @@ class CommonController extends Controller
         }
     }
 
+    public function update_profile(Request $request){
+        $country_id = $request->country_id;
+        $state_id = $request->state_id;
+        $dob = $request->dob;
+        $gender = $request->gender;
+        $marital_status = $request->marital_status;
+        $notification_status = $request->notification_status;
+        $photo_email_status = $request->photo_email_status;
+        $USER =  $request->userDetail;
+        $key = $request->user_type;
+        $company_name = $request->company_name;
+        $authorised_person = $request->authorised_person;
+        $tax_administration = $request->tax_administration;
+        $tax_no = $request->tax_no;
+        $company_phone = $request->company_phone;
+        $address = $request->address;
+        if(count($USER)){
+            $validations = [
+                'user_type' => 'required',
+                'country_id' => "required",
+                'state_id' => 'required',
+                'dob' => 'required_if:user_type,==,1|date_format:"Y-m-d"',
+                'gender' => 'required_if:user_type,==,1',
+                'marital_status' => 'required_if:user_type,==,1',
+                // 'notification_status' => 'required_if:user_type,==,1',
+                'marital_status' => 'required_if:user_type,==,1',
+                // 'photo_email_status' => 'required_if:user_type,==,1',
+                'company_name' => 'required_if:user_type,==,3',
+                'authorised_person' => 'required_if:user_type,==,3',
+                'tax_administration' => 'required_if:user_type,==,3',
+                'tax_no' => 'required_if:user_type,==,3',
+                'company_phone' => 'required_if:user_type,==,3',
+                'address' => 'required_if:user_type,==,3'
+            ];
+            $messages = [
+                'user_type.required' => 'field user_type is required',
+                'profile_image.required' => 'field profile_image is required',
+                'country_id.required' => 'field country_id is required',
+                'dob.required' => 'field dob is required',
+                'gender.required' => 'field gender is required',
+                'marital_status.required' => 'field marital_status is required',
+                'notification_status.required' => 'field notification_status is required',
+                'photo_email_status.required' => 'field photo_email_status is required',
+                'state_id.required' => 'field state_id is required',
+                'address.required' => 'field address is required',
+            ];
+            $validator = Validator::make($request->all(),$validations,$messages);
+            if( $validator->fails() ) {
+                $response = [
+                    'message' => $validator->errors($validator)->first(),
+                ];
+                return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+            } else {
+                if($key != $this->get_user_type($USER->user_type)){
+                    $response = [
+                        'message' => __('messages.invalid.request'),
+                    ];
+                    return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+                }
+                switch ($key) {
+                    case '1': // user
+                        $USER->country_id = $country_id;
+                        $USER->state_id = $state_id;
+                        $USER->dob = $dob;
+                        $USER->gender = $gender;
+                        $USER->marital_status = $marital_status;
+                        // $USER->notification_status = $notification_status;
+                        // $USER->photo_email_status = $photo_email_status;
+                        $USER->save();
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        $userData['country_name'] = Country::find($userData->country_id)->name;
+                        $userData['state_name'] = State::find($userData->state_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----update_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+
+                    case '3': // agency
+                        $USER->company_name = $company_name;
+                        $USER->authorised_person = $authorised_person;
+                        $USER->country_id = $country_id;
+                        $USER->state_id = $state_id;
+                        $USER->address = $address;
+                        $USER->tax_administration = $tax_administration;
+                        $USER->tax_no = $tax_no;
+                        $USER->company_phone = $company_phone;
+                        $USER->save();
+                        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+                        $userData['country_name'] = Country::find($userData->country_id)->name;
+                        $userData['state_name'] = State::find($userData->state_id)->name;
+                        $response = [
+                            'message' =>  __('messages.success.profile_updated'),
+                            'response' => $userData,
+                        ];
+                        Log::info('CommonController----update_profile----'.print_r($response,True));
+                        return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+                        break;
+                }
+            }
+        }else{
+            $response = [
+                'message' => __('messages.invalid.detail'),
+            ];
+            return Response::json($response,trans('messages.statusCode.INVALID_ACCESS_TOKEN'));
+        }
+    }
+
+
     public function maid_complete_profile(Request $request){
         Log::info('----------------------CommonController--------------------------maid_complete_profile'.print_r($request->toArray(),True));
         $USER =  $request->userDetail;
@@ -837,10 +1003,8 @@ class CommonController extends Controller
         $alcohol = $request->alcohol;
         $pet_problem_ids = json_decode($request->pet_problem_ids);
 
-
         $working_states = json_decode($request->working_states);
         $maid_can_work_country_id = json_decode($request->maid_can_work_country_id);
-        // $maid_can_work_country_id = $request->maid_can_work_country_id;
         $maid_job_choice_ids = json_decode($request->maid_job_choice_ids);
         $maid_working_style_ids = json_decode($request->maid_working_style_ids);
         $can_live_with_family = $request->can_live_with_family;
@@ -855,6 +1019,11 @@ class CommonController extends Controller
         $notification_status = $request->notification_status;
         $photo_email_status = $request->photo_email_status;
 
+        $maid_work_experiences = json_decode($request->maid_work_experiences);
+        $start_date = json_decode($request->start_date);
+        $end_date = json_decode($request->end_date);
+        $still_working = json_decode($request->still_working);
+        // return $request->all();
         // dd($maid_work_experience);
         // dd($working_states);
         $validations = [
@@ -1051,18 +1220,21 @@ class CommonController extends Controller
                               $data->save();
                             }
                         }
+
                         if(count($working_states)){
                             foreach ($working_states as $key => $value) {
                               $data = MaidWorkingState::firstOrCreate(['user_id' => $USER->id , 'state_id' => $value]);
                               $data->save();
                             }
                         }
+
                         if(count($maid_job_choice_ids)){
                             foreach ($maid_job_choice_ids as $key => $value) {
                               $data = MaidJobChoice::firstOrCreate(['user_id' => $USER->id , 'job_choice_id' => $value]);
                               $data->save();
                             }
                         }
+
                         if(count($maid_working_style_ids)){
                             foreach ($maid_working_style_ids as $key => $value) {
                               $data = MaidWorkingStyle::firstOrCreate(['user_id' => $USER->id , 'style_id' => $value]);
@@ -1071,16 +1243,18 @@ class CommonController extends Controller
                         }
 
                         if(count($maid_skill_ids)){
-                            foreach ($maid_skill_ids as $key => $value) {
-                              $data = MaidSkill::firstOrCreate(['user_id' => $USER->id , 'skill_id' => $value]);
-                              $data->save();
-                            }
+							foreach ($maid_skill_ids as $key => $value) {
+								$data = MaidSkill::firstOrCreate(['user_id' => $USER->id , 'skill_id' => $value]);
+								$data->save();
+							}
                         }
+
                         $USER->can_live_with_family = $can_live_with_family;
                         $USER->travel_situation = $travel_situation;
                         $USER->expected_fees = $expected_fees;
                         $USER->step_for_maid_profile = $step_for_maid_profile;
                         $USER->complete_profile = 0;
+                        // $USER->maid_work_experience = $maid_work_experience;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         if($userData->country_id)
@@ -1120,13 +1294,19 @@ class CommonController extends Controller
                         break;
 
                     case '5':
+                		if(count($maid_work_experiences)){
+	                        foreach ($maid_work_experiences as $key => $value) {
+	                            $data = MaidWorkExperience::firstOrNew(['user_id' => $USER->id , 'detail' => $value , 'start_date' => $start_date[$key] , 'end_date' => $end_date[$key] , 'still_working' => $still_working[$key] ]);
+	                            $data->save();
+	                        }
+                        }
                         $USER->maid_education = $maid_education;                        
                         $USER->maid_certificate = $maid_certificate;                        
                         $USER->maid_about_me = $maid_about_me;                        
                         $USER->step_for_maid_profile = $step_for_maid_profile;
                         $USER->notification_status = $notification_status;
-                        $USER->complete_profile = 1;
                         $USER->photo_email_status = $photo_email_status;
+                        $USER->complete_profile = 1;
                         $USER->save();
                         $userData = User::where(['id' => $USER->id])->with('userImages')->first();
                         if($userData->country_id)
@@ -1153,6 +1333,8 @@ class CommonController extends Controller
                         $userData['maid_working_style'] = MaidWorkingStyle::with('working_style_detail')->where('user_id',$USER->id)->select('user_id','style_id')->get();
 
                         $userData['maid_skills'] = MaidSkill::with('skill_detail')->where('user_id',$USER->id)->select('user_id','skill_id')->get();
+
+                        $userData['maid_work_experiences'] = MaidWorkExperience::where('user_id',$USER->id)->get();
                         $response = [
                             'message' =>  __('messages.success.profile_updated'),
                             'response' => $userData,
@@ -1164,22 +1346,248 @@ class CommonController extends Controller
                         dd('else');
                         break;
                 }
-                  
             }
-                
         }
     }
 
+    public function update_profile_maid(Request $request){
+        $USER =  $request->userDetail;
+        $destinationPathOfProfile = public_path().'/'.'Images/';
+        $profile_image = $request->profile_image;
+        $step_for_maid_profile = $request->step_for_maid_profile;
+        $country_id = $request->country_id;
+        $state_id = $request->state_id;
+        $city = json_decode($request->city);
+        $district = json_decode($request->district);
+        $dob = $request->dob;
+        $gender = $request->gender;
+        $nationality_id = $request->nationality_id;
+        $marital_status = $request->marital_status;
+        $kids = $request->kids;
+        $hi_job = $request->hi_job;
+        $education_ids = json_decode($request->education_ids);
+        $languages_ids = json_decode($request->languages_ids);
+        $work_status = $request->work_status;
+        $driving_licence = $request->driving_licence;
+        $smoke = $request->smoke;
+        $alcohol = $request->alcohol;
+        $pet_problem_ids = json_decode($request->pet_problem_ids);
+        $working_states = json_decode($request->working_states);
+        $maid_can_work_country_id = json_decode($request->maid_can_work_country_id);
+        $maid_job_choice_ids = json_decode($request->maid_job_choice_ids);
+        $maid_working_style_ids = json_decode($request->maid_working_style_ids);
+        $can_live_with_family = $request->can_live_with_family;
+        $travel_situation = $request->travel_situation;
+        $expected_fees = $request->expected_fees;
+        $maid_skill_ids = json_decode($request->maid_skill_ids);
+        $maid_education = $request->maid_education;
+        $maid_certificate = $request->maid_certificate;
+        $maid_about_me = $request->maid_about_me;
+        $maid_work_experience = $request->maid_work_experience;
+        $notification_status = $request->notification_status;
+        $photo_email_status = $request->photo_email_status;
 
-    public function get_profile(Request $request){
-        Log::info('----------------------CommonController--------------------------get_profile'.print_r($request->all(),True));
-        $USER = $request->userDetail;
-        if( $this->get_user_type($USER->user_type) == 1 ||  $this->get_user_type($USER->user_type) == 3){
-            $userData = User::where(['id' => $USER->id])->with('userImages')->first();
-            $userData['country_name'] = Country::find($userData->country_id)->name;
-            $userData['state_name'] = State::find($userData->state_id)->name;
-        }
-        if($this->get_user_type($USER->user_type) == 2){
+        $maid_work_experiences = json_decode($request->maid_work_experiences);
+        $start_date = json_decode($request->start_date);
+        $end_date = json_decode($request->end_date);
+        $still_working = json_decode($request->still_working);
+
+        // return $request->all();
+        // dd($maid_work_experience);
+        // dd($working_states);
+        $validations = [
+            'user_type' => 'required',
+            'country_id' => "required",
+            'state_id' => 'required',
+            'dob' => 'required|date_format:"Y-m-d"',
+            'gender' => 'required',
+            'nationality_id' => 'required',
+            'marital_status' => 'required',
+            'kids' => 'required',
+            'hi_job' => 'required',
+            'education_ids' => 'required',
+            'languages_ids' => 'required',
+            'work_status' => 'required',
+            'driving_licence' => 'required',
+            'smoke' => 'required',
+            'alcohol' => 'required',
+            'pet_problem_ids' => 'required',
+            'maid_can_work_country_id' => 'required',
+            'working_states' => 'required',
+            'city' => 'required',
+            'district' => 'required',
+            'maid_job_choice_ids' => 'required',
+            'maid_working_style_ids' => 'required',
+            'can_live_with_family' => 'required',
+            'travel_situation' => 'required',
+            'expected_fees' => 'required',
+            'maid_skill_ids' => 'required',
+            // 'notification_status' => 'required',
+            // 'photo_email_status' => 'required',
+        ];
+        
+        $validator = Validator::make($request->all(),$validations);
+        if( $validator->fails() ) {
+            $response = [
+                'message' => $validator->errors($validator)->first(),
+            ];
+            return Response::json($response,trans('messages.statusCode.SHOW_ERROR_MESSAGE'));
+        } else {
+            // return $USER->id;
+            $USER->country_id = $country_id;
+            $USER->state_id = $state_id;
+            $USER->dob = $dob;
+            $USER->gender = $gender;
+            $USER->nationality_id = $nationality_id;
+            $USER->marital_status = $marital_status;
+            $USER->kids = $kids;
+            $USER->hi_job = $hi_job;
+
+            // dd($USER->id);
+            UserEducation::where(['user_id' => $USER->id])->delete();
+            if(count($education_ids)){
+                foreach ($education_ids as $key => $value) {
+                  $data = UserEducation::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'education_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            UserLanguage::where(['user_id' => $USER->id])->delete();
+            if(count($languages_ids)){
+                foreach ($languages_ids as $key => $value) {
+                    $data = UserLanguage::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'language_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+
+            UserPetProblem::where(['user_id' => $USER->id])->delete();
+            if(count($pet_problem_ids)){
+                foreach ($pet_problem_ids as $key => $value) {
+                    $data = UserPetProblem::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'pet_problem_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+
+
+            $USER->work_status = $work_status;
+            $USER->driving_licence = $driving_licence;
+            $USER->smoke = $smoke;
+            $USER->alcohol = $alcohol;
+
+            MaidWorkingCity::where(['user_id' => $USER->id])->delete();
+            if(count($city)){
+                foreach ($city as $key => $value) {
+                    $data = MaidWorkingCity::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'city_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            MaidWorkingDistrict::where(['user_id' => $USER->id])->delete();
+            if(count($district)){
+                foreach ($district as $key => $value) {
+                    $data = MaidWorkingDistrict::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'district_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+
+            MaidWorkingCountry::where(['user_id' => $USER->id])->delete();
+            if(count($maid_can_work_country_id)){
+                foreach ($maid_can_work_country_id as $key => $value) {
+                    $data = MaidWorkingCountry::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'country_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            MaidWorkingState::where(['user_id' => $USER->id])->delete();
+            if(count($working_states)){
+                foreach ($working_states as $key => $value) {
+                  $data = MaidWorkingState::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'state_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            MaidJobChoice::where(['user_id' => $USER->id])->delete();
+            if(count($maid_job_choice_ids)){
+                foreach ($maid_job_choice_ids as $key => $value) {
+                  $data = MaidJobChoice::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'job_choice_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            MaidWorkingStyle::where(['user_id' => $USER->id])->delete();
+            if(count($maid_working_style_ids)){
+                foreach ($maid_working_style_ids as $key => $value) {
+                  $data = MaidWorkingStyle::withTrashed()->firstOrCreate(['user_id' => $USER->id , 'style_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+    
+
+
+            MaidSkill::where(['user_id' => $USER->id])->delete();
+            if(count($maid_skill_ids)){
+                foreach ($maid_skill_ids as $key => $value) {
+                    $data = MaidSkill::withTrashed()->firstOrNew(['user_id' => $USER->id , 'skill_id' => $value]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            $USER->can_live_with_family = $can_live_with_family;
+            $USER->travel_situation = $travel_situation;
+            $USER->expected_fees = $expected_fees;
+
+            MaidWorkExperience::where(['user_id' => $USER->id])->delete();
+            if(count($maid_work_experiences)){
+                foreach ($maid_work_experiences as $key => $value) {
+                    $data = MaidWorkExperience::withTrashed()->firstOrNew(['user_id' => $USER->id , 'detail' => $value , 'start_date' => $start_date[$key] , 'end_date' => $end_date[$key] , 'still_working' => $still_working[$key] ]);
+                    if($data->trashed())
+                        $data->restore();
+                    else
+                        $data->save();
+                }
+            }
+
+            $USER->maid_education = $maid_education;                        
+            $USER->maid_certificate = $maid_certificate;                        
+            $USER->maid_about_me = $maid_about_me;                        
+            // $USER->notification_status = $notification_status;
+            // $USER->photo_email_status = $photo_email_status;
+            $USER->save();
+
+
             $userData = User::where(['id' => $USER->id])->with('userImages')->first();
             if($userData->country_id)
                $userData['country_name'] = Country::find($userData->country_id)->name;
@@ -1193,10 +1601,11 @@ class CommonController extends Controller
             $userData['user_educations'] = UserEducation::where('user_id',$USER->id)->with('education_detail')->select('user_id','education_id')->get();
             
             $userData['user_pet_problems'] = UserPetProblem::where('user_id',$USER->id)->with('pet_problem_detail')->select('user_id','pet_problem_id')->get();
-            
             if($USER->maid_can_work_country_id)
                 $userData['maid_can_work_country_name'] = Country::where('id',$userData->maid_can_work_country_id)->first()->name;
 
+            $userData['maid_working_countries'] = MaidWorkingCountry::with('country_detail')->where('user_id',$USER->id)->select('user_id','country_id')->get();
+            
             $userData['maid_working_states'] = MaidWorkingState::with('state_detail')->where('user_id',$USER->id)->select('user_id','state_id')->get();
 
             $userData['maid_job_choices'] = MaidJobChoice::with('job_choice_detail')->where('user_id',$USER->id)->select('user_id','job_choice_id')->get();
@@ -1205,18 +1614,66 @@ class CommonController extends Controller
 
             $userData['maid_skills'] = MaidSkill::with('skill_detail')->where('user_id',$USER->id)->select('user_id','skill_id')->get();
 
+            $userData['maid_work_experiences'] = MaidWorkExperience::where('user_id',$USER->id)->get();
             $response = [
                 'message' =>  __('messages.success.profile_updated'),
                 'response' => $userData,
             ];
-            Log::info('CommonController----maid_complete_profile----'.print_r($response,True));
+            Log::info('CommonController----update_profile_maid----'.print_r($response,True));
             return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
+
         }
+    }
+
+    public function get_profile(Request $request){
+        Log::info('----------------------CommonController--------------------------get_profile'.print_r($request->all(),True));
+        $USER = $request->userDetail;
+        $userData = User::where(['id' => $USER->id])->with('userImages')->first();
+        if($userData->country_id)
+           $userData['country_name'] = Country::find($userData->country_id)->name;
+        if($userData->state_id)
+           $userData['state_name'] = State::find($userData->state_id)->name;
+        if($userData->nationality_id)
+            $userData['nationality_name'] = Nationality::find($userData->nationality_id)->name;
+
+        $userData['user_languages'] = UserLanguage::where('user_id',$USER->id)->with('language_detail')->select('user_id','language_id')->get();
+
+        $userData['user_educations'] = UserEducation::where('user_id',$USER->id)->with('education_detail')->select('user_id','education_id')->get();
+        
+        $userData['user_pet_problems'] = UserPetProblem::where('user_id',$USER->id)->with('pet_problem_detail')->select('user_id','pet_problem_id')->get();
+        
+        /*if($USER->maid_can_work_country_id)
+            $userData['maid_can_work_country_name'] = Country::where('id',$userData->maid_can_work_country_id)->first()->name;*/
+
+        $userData['maid_working_states'] = MaidWorkingState::with('state_detail')->where('user_id',$USER->id)->select('user_id','state_id')->get();
+
+        $userData['maid_job_choices'] = MaidJobChoice::with('job_choice_detail')->where('user_id',$USER->id)->select('user_id','job_choice_id')->get();
+
+        $userData['maid_working_style'] = MaidWorkingStyle::with('working_style_detail')->where('user_id',$USER->id)->select('user_id','style_id')->get();
+
+        $userData['maid_skills'] = MaidSkill::with('skill_detail')->where('user_id',$USER->id)->select('user_id','skill_id')->get();
+
+
+        $userData['rating'] = 0;
+        $userData['agency_name'] = null;
+
+        /*$userData['is_favourite'] = FavouriteUnfavouriteByUser::where(['to_maid_id' => $value->id, 'from_id' => $userDetail->id ])->count();
+        $userData['is_hired'] = (boolean) HireMaid::where(['hire_to' => $value->id ])->count();
+        */
+
+        $userData['maid_working_countries'] = MaidWorkingCountry::with('country_detail')->where('user_id',$USER->id)->select('user_id','country_id')->get();
+
+        
+        $userData['maid_working_city'] = MaidWorkingCity::with('city_detail')->Where(['user_id' => $USER->id])->select('id','user_id','city_id')->get();
+
+        $userData['maid_working_district'] = MaidWorkingDistrict::with('district_detail')->Where(['user_id' => $USER->id])->select('id','user_id','district_id')->get();
+
+
         $response = [
-            'message' =>  __('messages.success.profile_updated'),
+            'message' =>  __('messages.success.success'),
             'response' => $userData,
         ];
-        Log::info('CommonController----complete_profile----'.print_r($response,True));
+        Log::info('CommonController----maid_complete_profile----'.print_r($response,True));
         return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
     }
 
@@ -1284,4 +1741,6 @@ class CommonController extends Controller
                 break;
         }
     }
+
+    
 }

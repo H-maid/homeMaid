@@ -15,4 +15,15 @@ class JobChoiceController extends Controller
 		];
 		return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
 	}
+
+	public function save(Request $request){
+    	// return $request->all();
+    	$data = JobChoice::firstOrNew(['name' => $request->job_choice]);
+		if(!$data->exists){
+    		$data->save();
+			return '1';
+		}else{
+			return '0';
+		}    	
+	}
 }

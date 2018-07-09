@@ -1,0 +1,542 @@
+[2018-07-03 18:21:22] server.INFO: ----------------------CommonController--------------------------maid_complete_profileArray
+(
+    [step_for_maid_profile] => 5
+    [maid_work_experience] => Array
+        (
+            [0] => Ddddd
+        )
+
+    [maid_education] => Aaaaa
+    [notification_status] => 1
+    [maid_certificate] => Bbbbb
+    [user_type] => 2
+    [still_working] => Array
+        (
+            [0] => 0
+        )
+
+    [photo_email_status] => 1
+    [maid_about_me] => Ccccc
+    [start_date] => Array
+        (
+            [0] => Jul 3, 2016
+        )
+
+    [end_date] => Array
+        (
+            [0] => Jul 3, 2015
+        )
+
+    [userDetail] => App\Models\User Object
+        (
+            [fillable:protected] => Array
+                (
+                    [0] => name
+                    [1] => country_code
+                    [2] => mobile
+                    [3] => email
+                    [4] => password
+                    [5] => otp
+                    [6] => status
+                    [7] => user_type
+                    [8] => device_token
+                    [9] => device_type
+                    [10] => remember_token
+                    [11] => state_id
+                )
+
+            [hidden:protected] => Array
+                (
+                    [0] => password
+                )
+
+            [connection:protected] => mysql
+            [table:protected] => 
+            [primaryKey:protected] => id
+            [keyType:protected] => int
+            [incrementing] => 1
+            [with:protected] => Array
+                (
+                )
+
+            [withCount:protected] => Array
+                (
+                )
+
+            [perPage:protected] => 15
+            [exists] => 1
+            [wasRecentlyCreated] => 
+            [attributes:protected] => Array
+                (
+                    [id] => 23
+                    [name] => deepu
+                    [country_code] => +91
+                    [mobile] => 00000
+                    [email] => abhishek@a.com
+                    [dob] => 2018-07-03
+                    [gender] => male
+                    [password] => $2y$10$g2NmAgPmr9ihJYg37fQgZewjj3aSfss8N0T4kcN1JV6LAjnReCP46
+                    [otp] => 
+                    [otp_verified] => 1
+                    [complete_profile] => 0
+                    [status] => 1
+                    [user_type] => 2
+                    [device_token] => 12515215165165165
+                    [device_type] => 2
+                    [notification_status] => 1
+                    [photo_email_status] => 1
+                    [country_id] => 181
+                    [city_id] => 
+                    [state_id] => 1
+                    [district] => 
+                    [nationality_id] => 1
+                    [marital_status] => Married
+                    [kids] => Yes,lives with me
+                    [hi_job] => No
+                    [company_name] => 
+                    [authorised_person] => 
+                    [tax_administration] => 
+                    [tax_no] => 
+                    [company_phone] => 
+                    [step_for_maid_profile] => 4
+                    [work_status] => Part Time Working
+                    [driving_licence] => No
+                    [smoke] => I use sometimes
+                    [alcohol] => I use
+                    [can_live_with_family] => No
+                    [travel_situation] => No Matter
+                    [expected_fees] => 543
+                    [maid_education] => 
+                    [maid_certificate] => 
+                    [maid_about_me] => 
+                    [remember_token] => 805f3a6b4631a3115866bef8aaffe6fe
+                    [location_text] => 
+                    [latitude] => 
+                    [longitude] => 
+                    [maid_work_experience] => 
+                    [address] => 
+                    [created_at] => 2018-07-03 17:30:00
+                    [updated_at] => 2018-07-03 17:32:12
+                    [deleted_at] => 
+                )
+
+            [original:protected] => Array
+                (
+                    [id] => 23
+                    [name] => deepu
+                    [country_code] => +91
+                    [mobile] => 00000
+                    [email] => abhishek@a.com
+                    [dob] => 2018-07-03
+                    [gender] => male
+                    [password] => $2y$10$g2NmAgPmr9ihJYg37fQgZewjj3aSfss8N0T4kcN1JV6LAjnReCP46
+                    [otp] => 
+                    [otp_verified] => 1
+                    [complete_profile] => 0
+                    [status] => 1
+                    [user_type] => 2
+                    [device_token] => 12515215165165165
+                    [device_type] => 2
+                    [notification_status] => 1
+                    [photo_email_status] => 1
+                    [country_id] => 181
+                    [city_id] => 
+                    [state_id] => 1
+                    [district] => 
+                    [nationality_id] => 1
+                    [marital_status] => Married
+                    [kids] => Yes,lives with me
+                    [hi_job] => No
+                    [company_name] => 
+                    [authorised_person] => 
+                    [tax_administration] => 
+                    [tax_no] => 
+                    [company_phone] => 
+                    [step_for_maid_profile] => 4
+                    [work_status] => Part Time Working
+                    [driving_licence] => No
+                    [smoke] => I use sometimes
+                    [alcohol] => I use
+                    [can_live_with_family] => No
+                    [travel_situation] => No Matter
+                    [expected_fees] => 543
+                    [maid_education] => 
+                    [maid_certificate] => 
+                    [maid_about_me] => 
+                    [remember_token] => 805f3a6b4631a3115866bef8aaffe6fe
+                    [location_text] => 
+                    [latitude] => 
+                    [longitude] => 
+                    [maid_work_experience] => 
+                    [address] => 
+                    [created_at] => 2018-07-03 17:30:00
+                    [updated_at] => 2018-07-03 17:32:12
+                    [deleted_at] => 
+                )
+
+            [changes:protected] => Array
+                (
+                )
+
+            [casts:protected] => Array
+                (
+                )
+
+            [dates:protected] => Array
+                (
+                )
+
+            [dateFormat:protected] => 
+            [appends:protected] => Array
+                (
+                )
+
+            [dispatchesEvents:protected] => Array
+                (
+                )
+
+            [observables:protected] => Array
+                (
+                )
+
+            [relations:protected] => Array
+                (
+                )
+
+            [touches:protected] => Array
+                (
+                )
+
+            [timestamps] => 1
+            [visible:protected] => Array
+                (
+                )
+
+            [guarded:protected] => Array
+                (
+                    [0] => *
+                )
+
+            [rememberTokenName:protected] => remember_token
+        )
+
+)
+  
+[2018-07-03 18:21:22] server.ERROR: Invalid argument supplied for foreach() {"exception":"[object] (ErrorException(code: 0): Invalid argument supplied for foreach() at /var/www/html/Maid/app/Http/Controllers/CommonController.php:1293)
+[stacktrace]
+#0 /var/www/html/Maid/app/Http/Controllers/CommonController.php(1293): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Invalid argumen...', '/var/www/html/M...', 1293, Array)
+#1 [internal function]: App\\Http\\Controllers\\CommonController->maid_complete_profile(Object(Illuminate\\Http\\Request))
+#2 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): call_user_func_array(Array, Array)
+#3 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('maid_complete_p...', Array)
+#4 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\CommonController), 'maid_complete_p...')
+#5 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Route.php(169): Illuminate\\Routing\\Route->runController()
+#6 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(658): Illuminate\\Routing\\Route->run()
+#7 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 /var/www/html/Maid/app/Http/Middleware/ApiAuthentication.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\\Http\\Middleware\\ApiAuthentication->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#16 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#19 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#20 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#21 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#22 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#23 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /var/www/html/Maid/vendor/fideloper/proxy/src/TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#25 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#41 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#42 /var/www/html/Maid/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#43 {main}
+"} 
+[2018-07-03 18:28:00] server.INFO: ----------------------CommonController--------------------------maid_complete_profileArray
+(
+    [step_for_maid_profile] => 5
+    [maid_work_experience] => Array
+        (
+            [0] => Q
+        )
+
+    [maid_education] => Q
+    [notification_status] => 1
+    [maid_certificate] => Q
+    [user_type] => 2
+    [still_working] => Array
+        (
+            [0] => 0
+        )
+
+    [photo_email_status] => 1
+    [maid_about_me] => Q
+    [start_date] => Array
+        (
+            [0] => Jul 3, 2016
+        )
+
+    [end_date] => Array
+        (
+            [0] => Jul 3, 2016
+        )
+
+    [userDetail] => App\Models\User Object
+        (
+            [fillable:protected] => Array
+                (
+                    [0] => name
+                    [1] => country_code
+                    [2] => mobile
+                    [3] => email
+                    [4] => password
+                    [5] => otp
+                    [6] => status
+                    [7] => user_type
+                    [8] => device_token
+                    [9] => device_type
+                    [10] => remember_token
+                    [11] => state_id
+                )
+
+            [hidden:protected] => Array
+                (
+                    [0] => password
+                )
+
+            [connection:protected] => mysql
+            [table:protected] => 
+            [primaryKey:protected] => id
+            [keyType:protected] => int
+            [incrementing] => 1
+            [with:protected] => Array
+                (
+                )
+
+            [withCount:protected] => Array
+                (
+                )
+
+            [perPage:protected] => 15
+            [exists] => 1
+            [wasRecentlyCreated] => 
+            [attributes:protected] => Array
+                (
+                    [id] => 23
+                    [name] => deepu
+                    [country_code] => +91
+                    [mobile] => 00000
+                    [email] => abhishek@a.com
+                    [dob] => 2018-07-03
+                    [gender] => male
+                    [password] => $2y$10$g2NmAgPmr9ihJYg37fQgZewjj3aSfss8N0T4kcN1JV6LAjnReCP46
+                    [otp] => 
+                    [otp_verified] => 1
+                    [complete_profile] => 0
+                    [status] => 1
+                    [user_type] => 2
+                    [device_token] => 12515215165165165
+                    [device_type] => 2
+                    [notification_status] => 1
+                    [photo_email_status] => 1
+                    [country_id] => 181
+                    [city_id] => 
+                    [state_id] => 1
+                    [district] => 
+                    [nationality_id] => 1
+                    [marital_status] => Married
+                    [kids] => Yes,lives with me
+                    [hi_job] => No
+                    [company_name] => 
+                    [authorised_person] => 
+                    [tax_administration] => 
+                    [tax_no] => 
+                    [company_phone] => 
+                    [step_for_maid_profile] => 4
+                    [work_status] => Part Time Working
+                    [driving_licence] => No
+                    [smoke] => I use sometimes
+                    [alcohol] => I use
+                    [can_live_with_family] => No
+                    [travel_situation] => No Matter
+                    [expected_fees] => 543
+                    [maid_education] => 
+                    [maid_certificate] => 
+                    [maid_about_me] => 
+                    [remember_token] => 805f3a6b4631a3115866bef8aaffe6fe
+                    [location_text] => 
+                    [latitude] => 
+                    [longitude] => 
+                    [maid_work_experience] => 
+                    [address] => 
+                    [created_at] => 2018-07-03 17:30:00
+                    [updated_at] => 2018-07-03 17:32:12
+                    [deleted_at] => 
+                )
+
+            [original:protected] => Array
+                (
+                    [id] => 23
+                    [name] => deepu
+                    [country_code] => +91
+                    [mobile] => 00000
+                    [email] => abhishek@a.com
+                    [dob] => 2018-07-03
+                    [gender] => male
+                    [password] => $2y$10$g2NmAgPmr9ihJYg37fQgZewjj3aSfss8N0T4kcN1JV6LAjnReCP46
+                    [otp] => 
+                    [otp_verified] => 1
+                    [complete_profile] => 0
+                    [status] => 1
+                    [user_type] => 2
+                    [device_token] => 12515215165165165
+                    [device_type] => 2
+                    [notification_status] => 1
+                    [photo_email_status] => 1
+                    [country_id] => 181
+                    [city_id] => 
+                    [state_id] => 1
+                    [district] => 
+                    [nationality_id] => 1
+                    [marital_status] => Married
+                    [kids] => Yes,lives with me
+                    [hi_job] => No
+                    [company_name] => 
+                    [authorised_person] => 
+                    [tax_administration] => 
+                    [tax_no] => 
+                    [company_phone] => 
+                    [step_for_maid_profile] => 4
+                    [work_status] => Part Time Working
+                    [driving_licence] => No
+                    [smoke] => I use sometimes
+                    [alcohol] => I use
+                    [can_live_with_family] => No
+                    [travel_situation] => No Matter
+                    [expected_fees] => 543
+                    [maid_education] => 
+                    [maid_certificate] => 
+                    [maid_about_me] => 
+                    [remember_token] => 805f3a6b4631a3115866bef8aaffe6fe
+                    [location_text] => 
+                    [latitude] => 
+                    [longitude] => 
+                    [maid_work_experience] => 
+                    [address] => 
+                    [created_at] => 2018-07-03 17:30:00
+                    [updated_at] => 2018-07-03 17:32:12
+                    [deleted_at] => 
+                )
+
+            [changes:protected] => Array
+                (
+                )
+
+            [casts:protected] => Array
+                (
+                )
+
+            [dates:protected] => Array
+                (
+                )
+
+            [dateFormat:protected] => 
+            [appends:protected] => Array
+                (
+                )
+
+            [dispatchesEvents:protected] => Array
+                (
+                )
+
+            [observables:protected] => Array
+                (
+                )
+
+            [relations:protected] => Array
+                (
+                )
+
+            [touches:protected] => Array
+                (
+                )
+
+            [timestamps] => 1
+            [visible:protected] => Array
+                (
+                )
+
+            [guarded:protected] => Array
+                (
+                    [0] => *
+                )
+
+            [rememberTokenName:protected] => remember_token
+        )
+
+)
+  
+[2018-07-03 18:28:00] server.ERROR: Invalid argument supplied for foreach() {"exception":"[object] (ErrorException(code: 0): Invalid argument supplied for foreach() at /var/www/html/Maid/app/Http/Controllers/CommonController.php:1293)
+[stacktrace]
+#0 /var/www/html/Maid/app/Http/Controllers/CommonController.php(1293): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Invalid argumen...', '/var/www/html/M...', 1293, Array)
+#1 [internal function]: App\\Http\\Controllers\\CommonController->maid_complete_profile(Object(Illuminate\\Http\\Request))
+#2 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): call_user_func_array(Array, Array)
+#3 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('maid_complete_p...', Array)
+#4 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\CommonController), 'maid_complete_p...')
+#5 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Route.php(169): Illuminate\\Routing\\Route->runController()
+#6 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(658): Illuminate\\Routing\\Route->run()
+#7 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 /var/www/html/Maid/app/Http/Middleware/ApiAuthentication.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\\Http\\Middleware\\ApiAuthentication->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#16 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(660): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#19 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(635): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#20 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(601): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#21 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Router.php(590): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#22 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#23 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#24 /var/www/html/Maid/vendor/fideloper/proxy/src/TrustProxies.php(56): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#25 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(30): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(46): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#41 /var/www/html/Maid/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#42 /var/www/html/Maid/index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#43 {main}
+"} 

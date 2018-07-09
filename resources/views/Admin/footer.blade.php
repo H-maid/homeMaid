@@ -6,10 +6,10 @@
 </div>
 <script src="{{asset('Admin/js/jquery.min.js')}}"></script>
 <script src="{{asset('Admin/js/vendor.min.js')}}"></script>
-    <script src="{{asset('Admin/js/elephant.min.js')}}"></script>
-    <script src="{{asset('Admin/js/application.min.js')}}"></script>
-    <script src="{{asset('Admin/js/profile.min.js')}}"></script>
-     <script src="{{asset('Admin/js/demo.min.js')}}"></script>
+<script src="{{asset('Admin/js/elephant.min.js')}}"></script>
+<script src="{{asset('Admin/js/application.min.js')}}"></script>
+<script src="{{asset('Admin/js/profile.min.js')}}"></script>
+<script src="{{asset('Admin/js/demo.min.js')}}"></script>
    
     <script type="text/javascript">
       $(window).load(function(){
@@ -58,6 +58,14 @@
           $('.verificationNav ul').css("display","block");
         }
 
+        if ( $('.addAreaPage').length ) {
+          $('.sidenav-item').removeClass("active");
+          $('.areaNav').addClass("active");
+        }
+        if ( $('.addInfoPage').length ) {
+          $('.sidenav-item').removeClass("active");
+          $('.infoNav').addClass("active");
+        }
       
       });
 

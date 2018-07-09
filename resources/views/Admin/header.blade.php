@@ -286,6 +286,21 @@
                     <li class="verifyNav-b"><a href="{{url('admin/agency-verification')}}">Agency verification</a></li>
                   </ul>
                 </li>
+
+                <li class="sidenav-item areaNav">
+                  <a href="{{url('admin/addCountry')}}" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-globe"></span>
+                    <span class="sidenav-label">Area management</span>
+                  </a>
+                </li>
+                <li class="sidenav-item infoNav">
+                  <a href="{{url('admin/addInfo')}}" aria-haspopup="true">
+                    <span class="sidenav-icon icon icon-eye"></span>
+                    <span class="sidenav-label">Add info</span>
+                  </a>
+                </li>
+
+
                <!--  <li class="sidenav-item paymentNav">
                   <a href="paymentMgt.php" aria-haspopup="true">
                     <span class="sidenav-icon icon icon-dollar"></span>

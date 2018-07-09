@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Country;
+use App\Models\State;
 use App\Models\User;
 use App\Http\Controllers\SendMail;
 use Illuminate\Support\Facades\Validator;
@@ -160,4 +162,31 @@ class AdminController extends Controller
 
         return Auth::guard($guard);
     }
+
+    public function addInfo(Request $request){
+        switch($request->method()){
+            case 'GET':
+                return view('Admin.addInfo');
+                break;
+        }
+    }
+    
+
+    public function info_list(Request $request){
+        switch($request->method()){
+            case 'GET':
+                return view('Admin.addInfoList');
+                break;
+            case 'POST':
+                $Admin = Admin::where('id',Auth::guard('admin')->user()->id)->first();
+                $Admin->password = Hash::make($request->password);
+                $Admin->save();
+                return redirect('admin/change-password')->with('password_changed',__('messages.adminMessages.password_changed'));
+                break;
+        }
+    }
+
+
+
+    
 }

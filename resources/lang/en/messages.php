@@ -107,6 +107,11 @@ return [
 		'country_code' => 'Same country code as last.'
 	],
 
+
+	'notification_messages' => [
+		'Agency_send_registration_invitaion' => 'Agency send registration invitaion.',
+	],
+
 	'invalid_old_password' => 'Old password is incorrect.',
 	'favourite_list' => 'Favourite List',
 ];

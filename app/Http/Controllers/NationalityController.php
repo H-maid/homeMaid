@@ -16,4 +16,15 @@ class NationalityController extends Controller
         ];
         return response()->json($response,__('messages.statusCode.ACTION_COMPLETE'));
     }
+
+    public function save(Request $request){
+    	// return $request->all();
+    	$data = Nationality::firstOrNew(['name' => $request->nationality]);
+		if(!$data->exists){
+    		$data->save();
+			return '1';
+		}else{
+			return '0';
+		}    	
+    }
 }
